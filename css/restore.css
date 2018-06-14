@@ -1,0 +1,105 @@
+#restore-ui, #restore-ui * {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+/*Outer shell div*/
+#restore-ui {
+    display: none;
+    position: fixed;
+    background: white;
+    z-index: 2050;
+    margin: auto;
+    /*top: 0;*/
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background-image: -webkit-linear-gradient(left, red 8%, black);
+    background-image: -moz-linear-gradient(left, red 8%, black);
+    background-image: -o-linear-gradient(left, red 8%, black);
+    background-image: linear-gradient(left, red 8%, black);
+    
+}
+/*action button and clear button*/
+#restore-ui #restore-ui-action, #restore-ui #restore-ui-clear {
+    -webkit-user-select: none;
+    user-select: none;
+
+    -webkit-appearance: button;
+    color: #fff;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+    background-image: none;
+    border-radius: 4px;
+    /*display: none;*/
+}
+#restore-ui #restore-ui-action:before, #restore-ui #restore-ui-clear::before {
+    display: inline;
+}
+/*individual button*/
+#restore-ui #restore-ui-action {
+    margin-left: 2.7em;
+
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+#restore-ui #restore-ui-clear {
+    margin-left: 8px;
+
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+#restore-ui {
+    -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 1em rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 1em rgba(0, 0, 0, 0.3);
+    font-family: "Lucida Grande", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 1em;
+    width: 25em;
+    max-width: 100%;
+    /*background: #f6f6f6;*/
+    color: white;
+    overflow: hidden;
+}
+#restore-ui #restore-ui-content {
+    padding-left: 1em;
+}
+#restore-ui #restore-ui-content:before {
+    line-height: 1.25em;
+}
+#restore-ui #restore-ui-content:after {
+    border-radius: 50%;
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 1em;
+    margin: auto;
+    height: 1em;
+    width: 1em;
+}
+#restore-ui #restore-ui-retry {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.75);
+    border-radius: 2px;
+    background-image: -webkit-linear-gradient(left, #ededed, #ededed 38%, #dedede);
+    background-image: -moz-linear-gradient(left, #ededed, #ededed 38%, #dedede);
+    background-image: -o-linear-gradient(left, #ededed, #ededed 38%, #dedede);
+    background-image: linear-gradient(left, #ededed, #ededed 38%, #dedede);
+    position: absolute;
+    right: 4em;
+    top: 1em;
+    bottom: 1em;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    text-shadow: 0 1px 0 #f0f0f0;
+    padding: 0 1em;
+    line-height: 1.6em;
+    height: 1.7em;
+    margin: auto;
+    font-size: 12px;
+    text-decoration: none;
+    color: inherit;
+}

@@ -1,0 +1,12 @@
+/* This css page ONLY applies to Report (RPT) Pages */
+
+/* made report description bigger so that it's readable :) */
+table textarea#ReportDescription {
+    height: 150px;
+}
+
+/* hovering over report links made the line-height change :( */
+.titleLayout a:hover {
+    /* without this, changes to: line-height: 25px; */
+    line-height: 100%;
+}

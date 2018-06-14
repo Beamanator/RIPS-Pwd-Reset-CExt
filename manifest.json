@@ -1,0 +1,41 @@
+{
+	"manifest_version": 2,
+	"name": "RIPS Extension - Password Reset",
+	// never needs to be published!
+	"version": "0.1.0",
+
+	"description": "RIPS Extension - Password reset reminder",
+
+	"permissions": [
+		"storage",
+		"tabs"
+	],
+	"browser_action": {
+		"default_icon": {
+			"32": "img/icon32.ico" // unpacked exts need .png :)
+		}
+		// "default_popup": "html or js here"
+	},
+	"icons": {
+		"48": "img/icon48.png",
+    	"128": "img/icon128.png"
+    },
+
+    "content_scripts": [
+		{
+			"matches": [ "http://rips.247lib.com/starssup/*" ],
+			"js": [
+				"js/jquery-3.1.1.min.js"
+			]
+		}, {
+			"matches": [ "http://rips.247lib.com/starssup/user/userdetails" ],
+			"js": [
+				"js/MainContent.js"
+			]
+		}
+	],
+	"background": {
+		"page": "html/background.html"
+	},
+	"content_security_policy":"script-src 'self' 'unsafe-eval' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'"
+}
