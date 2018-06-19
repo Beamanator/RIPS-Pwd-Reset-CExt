@@ -5,7 +5,7 @@
 
 # hide auth folder(s)
 /public/auth
-#/build/auth # - excluded below
+# /build/auth # - excluded below
 
 # testing
 /coverage
