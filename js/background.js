@@ -41,7 +41,7 @@ chrome.runtime.onMessage.addListener(function(mObj, MessageSender, sendResponse)
     // kill callback if noCallback flag is true
     if (noCallback) sendResponse = undefined;
 
-    switch(action) {
+    switch (action) {
 
         // gets data from chrome's local storage and returns to caller via sendResponse
         case 'get_data_from_chrome_storage_local':
@@ -64,8 +64,6 @@ chrome.runtime.onMessage.addListener(function(mObj, MessageSender, sendResponse)
             async = true;
             break;
 
-        // TODO: add counter for invalid UNHCR / phone numbers / dates caught
-        
         // handle user login - firebase data tracking
         case 'firebase_handle_user_login':
             FB_handleUserLogin(firebase, mObj);
