@@ -1,0 +1,32 @@
+{
+	//--------------------------------------------------------------
+	//     NOTE: ONLY EDIT CODE IN /public/* - NOT IN /build/*
+	//--------------------------------------------------------------
+	
+	// never needs to be published! Stay on 0.XX.XX
+	"version": "0.1.0",
+	"manifest_version": 2,
+
+	"short_name": "Password Reset Handler",
+	"name": "RIPS Extension - Password Reset",
+	
+	"description": "RIPS Extension - Password reset reminder / handler",
+
+	"permissions": [
+		"storage",
+		"tabs"
+	],
+	"options_page": "index.html", // react app here
+	"browser_action": {
+		"default_icon": {
+			"48": "extension_code/img/ic_48.png"
+		},
+		"default_popup": "extension_code/html/optionsPageRedirect.html"
+	},
+	"icons": {
+		"48": "extension_code/img/ic_48.png",
+    	"96": "extension_code/img/ic_96.png"
+    },
+
+	"content_security_policy":"script-src 'self' 'unsafe-eval' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'"
+}
