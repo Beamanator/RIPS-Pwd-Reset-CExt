@@ -5,37 +5,29 @@ import Auth from './containers/Auth/Auth';
 import Main from './containers/Main/Main';
 
 import * as actions from './store/actions/index';
-// import logo from './logo.svg';
 import classes from './App.css';
 
 class App extends Component {
     componentDidMount() {
-        console.log('try to auto sign in!');
-        // this.props.onTryAutoSignin();
+        this.props.onTryAutoSignin();
     }
     
     render() {
+        let elem, welcomeMsg;
+        if (this.props.isAuthenticated) {
+            elem = <Main />;
+            welcomeMsg = 'check reset status';
+        } else {
+            elem = <Auth />;
+            welcomeMsg = 'sign in';
+        }
+
         return (
             <div className={classes.App}>
-                <Auth />
-                <Main />
+                <h1>{`Welcome! Please ${welcomeMsg}!`}</h1>
+                {elem}
             </div>
         );
-
-        // return (
-        //     <div className={classes.App}>
-        //         <header className={classes.AppHeader}>
-        //             <img
-        //                 src={logo}
-        //                 className={classes.AppLogo}
-        //                 alt="logo" />
-        //             <h1 className={classes.AppTitle}>Welcome to React</h1>
-        //         </header>
-        //         <p className={classes.AppIntro}>
-        //             To get started, edit <code>src/App.js</code> and save to reload.
-        //         </p>
-        //     </div>
-        // );
     }
 }
 
