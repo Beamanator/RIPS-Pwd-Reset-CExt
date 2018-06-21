@@ -6,7 +6,7 @@ import Main from './containers/Main/Main';
 
 import * as actions from './store/actions/index';
 // import logo from './logo.svg';
-// import classes from './App.css';
+import classes from './App.css';
 
 class App extends Component {
     componentDidMount() {
@@ -16,7 +16,7 @@ class App extends Component {
     
     render() {
         return (
-            <div>
+            <div className={classes.App}>
                 <Auth />
                 <Main />
             </div>

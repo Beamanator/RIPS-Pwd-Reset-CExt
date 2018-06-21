@@ -1,5 +1,7 @@
 .App {
     text-align: center;
+    /* adding font-size 1rem to override chrome ext 75% style */
+    font-size: 1rem;
 }
 
 .AppLogo {
