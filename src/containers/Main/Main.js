@@ -8,7 +8,6 @@ import classes from './Main.css';
 
 class Main extends Component {
     logoutHandler = () => {
-        console.log('logout');
         this.props.onLogout();
     }
 
@@ -23,6 +22,7 @@ class Main extends Component {
         return (
             <div>
                 <p>WHEN DONE, PLEASE {logoutBtn}</p>
+                {/* TODO: add main content data below */}
                 <p>Main content here</p>
             </div>
         );
@@ -33,7 +33,8 @@ class Main extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onLogout: () => dispatch(actions.logout())
+        onLogout: () => dispatch(actions.logout()),
+        onCollectPwds: () => dispatch()
     };
 };
 
