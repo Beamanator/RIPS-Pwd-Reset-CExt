@@ -5,9 +5,15 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
 import authReducer from './store/reducers/auth';
+import wordsReducer from './store/reducers/words';
+import portReducer from './store/reducers/port';
 import './index.css';
+
+// comment out service worker here & below to prevent unharmful error:
+// -> Uncaught (in promise) TypeError: Request scheme 'chrome-extension' is unsupported
+// -> https://github.com/facebook/create-react-app/issues/3144
+// import registerServiceWorker from './registerServiceWorker';
 
 // create-react-act dev environment specific
 // process.env.NODE_ENV comes from config folder, env.js file
@@ -19,7 +25,9 @@ const composeEnhancers = process.env.NODE_ENV === 'development'
         || compose;
 
 const rootReducer = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    words: wordsReducer,
+    port: portReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(
@@ -34,4 +42,4 @@ const app = (
 );
 
 ReactDOM.render(app, document.getElementById('root'));
-registerServiceWorker();
+// registerServiceWorker();
