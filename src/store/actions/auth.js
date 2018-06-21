@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { apiKey } from '../../shared/auth/apiKey';
 
 import * as actionTypes from '../actions/actionTypes';
 
@@ -47,6 +48,17 @@ export const checkAuthTimeout = (expirationTime) => {
     };
 };
 
+
+/**
+ * Function starts the process of authenticating a user.
+ * 1. dispatch authStart
+ * 2. 
+ *
+ * @param {*} email
+ * @param {*} password
+ * @param {*} isSignup
+ * @returns
+ */
 export const auth = (email, password, isSignup) => {
     return dispatch => {
         // ... authenticate user
@@ -58,10 +70,9 @@ export const auth = (email, password, isSignup) => {
             returnSecureToken: true
         };
 
-        let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyDiiAjpdPkryEXyFao1rNoFysM-f_Ondvg';
-        if (!isSignup) {
-            url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyDiiAjpdPkryEXyFao1rNoFysM-f_Ondvg';
-        }
+        // sign in url
+        let url = 'https://www.googleapis.com/identitytoolkit/v3/' +
+            'relyingparty/verifyPassword?key=' + apiKey;
 
         axios.post(url, authData)
         .then(res => {
@@ -87,16 +98,21 @@ export const auth = (email, password, isSignup) => {
     };
 };
 
-// export const setAuthRedirectPath = (path) => {
-//     return {
-//         type: actionTypes.SET_AUTH_REDIRECT_PATH,
-//         path: path
-//     };
-// };
-
+/**
+ * Function checks if user is logged in by checking for 'token' in
+ * local storage.
+ * If not found, dispatch logout
+ * If found, checks expiration date.
+ *      If not expired, dispatch authSuccess (log in)
+ *          Then dispatch checkAuthTimeout
+ *      If expired, dispatch logout
+ *
+ * @returns
+ */
 export const authCheckState = () => {
     return dispatch => {
         const token = localStorage.getItem('token');
+
         if (!token) {
             dispatch(logout()); // not logged in - may as well logout
         } else {
