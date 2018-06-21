@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Auth from './containers/Auth/Auth';
 import Main from './containers/Main/Main';
 
+import * as actions from './store/actions/index';
 // import logo from './logo.svg';
 // import classes from './App.css';
 
