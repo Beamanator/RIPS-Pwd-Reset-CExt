@@ -26,7 +26,16 @@
 	"icons": {
 		"48": "extension_code/img/ic_48.png",
     	"96": "extension_code/img/ic_96.png"
-    },
+	},
+	"background": {
+		"page": "extension_code/html/background.html"
+	},
+	"content_scripts": [
+		{
+			"matches": [ "http://rips.247lib.com/StarsSup/User/UserDetails*" ],
+			"js": [ "extension_code/js/main.js" ]
+		}
+	],
 
 	"content_security_policy":"script-src 'self' 'unsafe-eval' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'"
 }
