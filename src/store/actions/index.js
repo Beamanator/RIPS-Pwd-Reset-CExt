@@ -8,8 +8,6 @@ export {
     authCheckState
 } from './auth';
 
-// export {
-//     addIngredient,
-//     removeIngredient,
-//     initIngredients
-// } from './burgerBuilder';
+export {
+    backgroundPortInit
+} from './port';

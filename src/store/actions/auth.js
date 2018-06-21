@@ -3,7 +3,7 @@ import { apiKey } from '../../shared/auth/apiKey';
 
 import * as actionTypes from '../actions/actionTypes';
 
-// action creator functions go here
+// AUTH action creator functions go here
 
 // called in auth()
 export const authStart = () => {

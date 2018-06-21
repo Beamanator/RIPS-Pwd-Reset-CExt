@@ -5,8 +5,7 @@ const initialState = {
     token: null,
     userId: null,
     error: null,
-    loading: false,
-    // authRedirectPath: '/'
+    loading: false
 };
 
 const authStart = (state, action) => {
@@ -45,7 +44,7 @@ const authLogout = (state, action) => {
 // };
 
 const reducer = (state = initialState, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case actionTypes.AUTH_START: return authStart(state, action);
         case actionTypes.AUTH_SUCCESS: return authSuccess(state, action);
         case actionTypes.AUTH_FAIL: return authFail(state, action);
@@ -55,6 +54,6 @@ const reducer = (state = initialState, action) => {
         default:
             return state;
     }
-}
+};
 
 export default reducer;
