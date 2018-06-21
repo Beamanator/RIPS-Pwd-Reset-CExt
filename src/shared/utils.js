@@ -25,7 +25,7 @@ export const checkValidity = ( value, rules ) => {
     }
 
     if (rules.isEmail) {
-        const pattern = /[a-z0-9]+(\.[a-z0-9])*@[a-z0-9]+(\.[a-z])+/i;
+        const pattern = /[a-z0-9]+(\.[a-z0-9])*@[a-z0-9-]+(\.[a-z])+/i;
         isValid = pattern.test(value) && isValid;
     }
 
