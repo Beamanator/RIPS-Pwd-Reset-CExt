@@ -3,9 +3,8 @@
 # dependencies
 /node_modules
 
-# hide auth folder(s)
-/public/auth
-# /build/auth # - excluded below
+# hide apiKey file - technically it's ok to show though, right?
+/src/shared/auth
 
 # testing
 /coverage
