@@ -1,4 +1,3 @@
-/*global chrome*/
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -12,18 +11,6 @@ import classes from './App.css';
 class App extends Component {
     componentDidMount() {
         this.props.onTryAutoSignin();
-
-        // if no port exists, set one up!
-        if (!this.props.bkgPort) {
-            // store port in redux store
-            this.props.onBackgroundPortInit(chrome);
-        } else {
-            console.warn('<App> port already exists', this.props.bkgPort);
-        }
-    }
-
-    componentWillUnmount() {
-        // TODO: destroy the background port - call action!
     }
     
     render() {
@@ -47,15 +34,13 @@ class App extends Component {
 
 const mapStateToProps = state => {
     return {
-        isAuthenticated: state.auth.token !== null,
-        bkgPort: state.port.port
+        isAuthenticated: state.auth.token !== null
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onTryAutoSignin: () => dispatch(actions.authCheckState()),
-        onBackgroundPortInit: (chrome) => dispatch(actions.backgroundPortInit(chrome))
+        onTryAutoSignin: () => dispatch(actions.authCheckState())
     };
 };
 
