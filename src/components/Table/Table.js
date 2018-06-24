@@ -5,48 +5,6 @@ import Row from './Row/Row';
 import classes from './Table.css';
 
 const table = (props) => {
-    const data = {
-        Urgent: [{
-            username: 'abeaman',
-            lastPwdChange: '4 May 2018',
-            email: 'spamalotmucho@gmail.com'
-        }, {
-            username: 'staff',
-            lastPwdChange: '1 Jan 2017',
-            email: 'none'
-        }, {
-            username: 'staff',
-            lastPwdChange: '1 Jan 2017',
-            email: 'none'
-        }],
-        Warning: [{
-            username: 'abeaman',
-            lastPwdChange: '4 May 2018',
-            email: 'spamalotmucho@gmail.com'
-        }, {
-            username: 'staff',
-            lastPwdChange: '1 Jan 2017',
-            email: 'none'
-        }],
-        Normal: [{
-            username: 'abeaman',
-            lastPwdChange: '4 May 2018',
-            email: 'spamalotmucho@gmail.com'
-        }, {
-            username: 'staff',
-            lastPwdChange: '1 Jan 2017',
-            email: 'none'
-        }, {
-            username: 'staff',
-            lastPwdChange: '1 Jan 2017',
-            email: 'none'
-        }, {
-            username: 'staff',
-            lastPwdChange: '1 Jan 2017',
-            email: 'none'
-        }]
-    };
-
     // headers are all the same, so create const here
     const headerData = {
         username: 'Username',
@@ -66,6 +24,15 @@ const table = (props) => {
             console.error(`Table type "${props.type}" not recognized`);
     }
 
+    // create rows dynamically
+    const userData = props.data.map(user => (
+        <Row
+            key={user.username}
+            type={props.type}
+            data={user}
+        />
+    ));
+
     return (
         <div className={classes.Container}>
             <p className={classes.TableTitle}>{props.title}</p>
@@ -74,8 +41,7 @@ const table = (props) => {
                     <Row type="header" data={headerData}/>
                 </thead>
                 <tbody className={classes.TableBody}>
-                    <Row />
-                    <Row />
+                    {userData}
                 </tbody>
             </table>
         </div>
