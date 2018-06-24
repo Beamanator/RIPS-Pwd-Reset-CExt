@@ -1,0 +1,10 @@
+/* Connection status classes */
+.Connected {
+    font-weight: bold;
+    color: limegreen;
+}
+
+.Disconnected {
+    font-weight: bold;
+    color: grey;
+}

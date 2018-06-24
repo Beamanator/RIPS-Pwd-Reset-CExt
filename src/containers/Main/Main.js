@@ -34,17 +34,31 @@ class Main extends Component {
     }
 
     render () {
+        // extract logoutBtn code
         const logoutBtn = (
             <Button
                 btnType="Danger"
                 clicked={this.logoutHandler}
-            >LOGOUT</Button>
+            >[LOGOUT]</Button>
+        );
+
+        // extract connection status code
+        let connectionStatus, connectionStatusClass;
+        if ( this.props.bkgPort ) {
+            connectionStatus = 'CONNECTED';
+            connectionStatusClass = 'Connected';
+        } else {
+            connectionStatus = 'NOT CONNECTED';
+            connectionStatusClass = 'Disconnected';
+        }
+        const connectionStatusContainer = (
+            <span className={classes[connectionStatusClass]}>{connectionStatus}</span>
         );
 
         return (
             <div>
-                <p>WHEN DONE, PLEASE {logoutBtn}</p>
-                {/* TODO: put status of connection to RIPS manager here! */}
+                <div>WHEN DONE, PLEASE {logoutBtn}</div>
+                <div>RIPS Connection Status: {connectionStatusContainer}</div>
                 {/* TODO: add main content data below */}
                 <p>Main content here</p>
             </div>
