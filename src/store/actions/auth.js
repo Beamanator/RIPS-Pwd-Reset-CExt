@@ -56,10 +56,9 @@ export const checkAuthTimeout = (expirationTime) => {
  *
  * @param {*} email
  * @param {*} password
- * @param {*} isSignup
  * @returns
  */
-export const auth = (email, password, isSignup) => {
+export const auth = (email, password) => {
     return dispatch => {
         // ... authenticate user
         dispatch(authStart());
