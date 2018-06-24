@@ -9,48 +9,6 @@ import Table from '../../components/Table/Table';
 import * as actions from '../../store/actions/index';
 import classes from './Main.css';
 
-const data = {
-    Urgent: [{
-        username: 'abeaman',
-        lastPwdChange: '4 May 2018',
-        email: 'spamalotmucho@gmail.com'
-    }, {
-        username: 'staff1',
-        lastPwdChange: '1 Jan 2017',
-        email: 'none'
-    }, {
-        username: 'staff2',
-        lastPwdChange: '1 Jan 2017',
-        email: 'none'
-    }],
-    Warning: [{
-        username: 'abeaman',
-        lastPwdChange: '4 May 2018',
-        email: 'spamalotmucho@gmail.com'
-    }, {
-        username: 'staff6',
-        lastPwdChange: '1 Jan 2017',
-        email: 'none'
-    }],
-    Normal: [{
-        username: 'abeaman',
-        lastPwdChange: '4 May 2018',
-        email: 'spamalotmucho@gmail.com'
-    }, {
-        username: 'staff3',
-        lastPwdChange: '1 Jan 2017',
-        email: 'none'
-    }, {
-        username: 'staff4',
-        lastPwdChange: '1 Jan 2017',
-        email: 'none'
-    }, {
-        username: 'staff5',
-        lastPwdChange: '1 Jan 2017',
-        email: 'none'
-    }]
-};
-
 class Main extends Component {
     componentDidMount() {
         console.log('<Main> NODE_ENV:',process.env.NODE_ENV);
@@ -107,19 +65,19 @@ class Main extends Component {
                 <Table
                     title="CHANGE NOW"
                     type="Urgent"
-                    data={data.Urgent}
+                    data={this.props.userData.Urgent}
                 />
                 <Spacer height='10px' />
                 <Table
                     title="Change SOON"
                     type="Warning"
-                    data={data.Warning}
+                    data={this.props.userData.Warning}
                 />
                 <Spacer height='10px' />
                 <Table
                     title="Changed Recently"
                     type="Normal"
-                    data={data.Normal}
+                    data={this.props.userData.Normal}
                 />
             </div>
         );
@@ -128,7 +86,8 @@ class Main extends Component {
 
 const mapStateToProps = state => {
     return {
-        bkgPort: state.port.port
+        bkgPort: state.port.port,
+        userData: state.words.userData
     };
 };
 
