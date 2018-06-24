@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Button from '../../components/UI/Button/Button';
-import * as actions from '../../store/actions/index';
+import Spacer from '../../components/UI/Spacer/Spacer';
+import Table from '../../components/Table/Table';
 
+import * as actions from '../../store/actions/index';
 import classes from './Main.css';
 
 class Main extends Component {
@@ -59,8 +61,9 @@ class Main extends Component {
             <div>
                 <div>WHEN DONE, PLEASE {logoutBtn}</div>
                 <div>Connection Status: {connectionStatusContainer}</div>
+                <Spacer height='50px'/>
                 {/* TODO: add main content data below */}
-                <p>Main content here</p>
+                <Table />
             </div>
         );
     }
