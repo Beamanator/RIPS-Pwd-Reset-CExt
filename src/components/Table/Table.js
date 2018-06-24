@@ -17,14 +17,25 @@ const table = (props) => {
         }
     ];
 
+    let tableHeaderClass = 'Normal'
+    switch( props.type ) {
+        case 'Urgent':
+        case 'Warning':
+        case 'Normal':
+            tableHeaderClass = props.type;
+            break;
+        default:
+            console.error(`Table type "${props.type}" not recognized`);
+    }
+
     return (
         <div className={classes.Container}>
-            <p>Table Title</p>
+            <p className={classes.TableTitle}>{props.title}</p>
             <table className={classes.Table}>
-                <thead>
+                <thead className={classes[tableHeaderClass]}>
                     <Row type="header"/>
                 </thead>
-                <tbody>
+                <tbody className={classes.TableBody}>
                     <Row />
                     <Row />
                 </tbody>

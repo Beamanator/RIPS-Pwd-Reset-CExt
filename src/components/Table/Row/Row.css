@@ -1,3 +1,8 @@
 .Container {
     width: 100%;
+    height: 40px;
+}
+
+.Header {
+    background-color: #d85151;
 }

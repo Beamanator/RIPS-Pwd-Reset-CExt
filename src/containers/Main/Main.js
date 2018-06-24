@@ -61,9 +61,21 @@ class Main extends Component {
             <div>
                 <div>WHEN DONE, PLEASE {logoutBtn}</div>
                 <div>Connection Status: {connectionStatusContainer}</div>
-                <Spacer height='50px'/>
-                {/* TODO: add main content data below */}
-                <Table />
+                <Spacer height='10px' />
+                <Table
+                    title="CHANGE NOW"
+                    type="Urgent"
+                />
+                <Spacer height='10px' />
+                <Table
+                    title="Change SOON"
+                    type="Warning"
+                />
+                <Spacer height='10px' />
+                <Table
+                    title="Changed Recently"
+                    type="Normal"
+                />
             </div>
         );
     }
