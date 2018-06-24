@@ -58,7 +58,7 @@ class Main extends Component {
         return (
             <div>
                 <div>WHEN DONE, PLEASE {logoutBtn}</div>
-                <div>RIPS Connection Status: {connectionStatusContainer}</div>
+                <div>Connection Status: {connectionStatusContainer}</div>
                 {/* TODO: add main content data below */}
                 <p>Main content here</p>
             </div>
