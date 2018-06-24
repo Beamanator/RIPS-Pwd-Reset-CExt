@@ -5,8 +5,8 @@ import Row from './Row/Row';
 import classes from './Table.css';
 
 const table = (props) => {
-    const data = [
-        {
+    const data = {
+        Urgent: [{
             username: 'abeaman',
             lastPwdChange: '4 May 2018',
             email: 'spamalotmucho@gmail.com'
@@ -14,9 +14,47 @@ const table = (props) => {
             username: 'staff',
             lastPwdChange: '1 Jan 2017',
             email: 'none'
-        }
-    ];
+        }, {
+            username: 'staff',
+            lastPwdChange: '1 Jan 2017',
+            email: 'none'
+        }],
+        Warning: [{
+            username: 'abeaman',
+            lastPwdChange: '4 May 2018',
+            email: 'spamalotmucho@gmail.com'
+        }, {
+            username: 'staff',
+            lastPwdChange: '1 Jan 2017',
+            email: 'none'
+        }],
+        Normal: [{
+            username: 'abeaman',
+            lastPwdChange: '4 May 2018',
+            email: 'spamalotmucho@gmail.com'
+        }, {
+            username: 'staff',
+            lastPwdChange: '1 Jan 2017',
+            email: 'none'
+        }, {
+            username: 'staff',
+            lastPwdChange: '1 Jan 2017',
+            email: 'none'
+        }, {
+            username: 'staff',
+            lastPwdChange: '1 Jan 2017',
+            email: 'none'
+        }]
+    };
 
+    // headers are all the same, so create const here
+    const headerData = {
+        username: 'Username',
+        email: 'Email Address',
+        lastPwdChange: 'Last Password Change'
+    };
+
+    // handle table header class (to figure out appropriate color)
     let tableHeaderClass = 'Normal'
     switch( props.type ) {
         case 'Urgent':
@@ -33,7 +71,7 @@ const table = (props) => {
             <p className={classes.TableTitle}>{props.title}</p>
             <table className={classes.Table}>
                 <thead className={classes[tableHeaderClass]}>
-                    <Row type="header"/>
+                    <Row type="header" data={headerData}/>
                 </thead>
                 <tbody className={classes.TableBody}>
                     <Row />
