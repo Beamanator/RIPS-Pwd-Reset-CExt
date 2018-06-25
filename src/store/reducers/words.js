@@ -7,6 +7,7 @@ const initialState = {
     loading: false,
     fbData: null,
     ripsData: null,
+    // NOTE: emails come from RIPS, NOT STORED IN FB
     userData: {
         Urgent: [{
             username: 'abeaman',
@@ -56,7 +57,7 @@ const collectRIPSWordsStart = (state, action) => {
 };
 const collectRIPSWordsSuccess = (state, action) => {
     return updateObject(state, {
-        error: null, loading: false, userData: action.userData
+        error: null, loading: false, ripsData: action.userData
     });
 };
 const collectRIPSWordsFail = (state, action) => {
@@ -69,7 +70,7 @@ const fbFetchStart = (state, action) => {
 };
 const fbFetchSuccess = (state, action) => {
     return updateObject(state, {
-        error: null, loading: false, userData: action.userData
+        error: null, loading: false, fbData: action.userData
     });
 };
 const fbFetchFail = (state, action) => {

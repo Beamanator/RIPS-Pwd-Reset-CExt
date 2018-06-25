@@ -27,16 +27,7 @@ export const fbFetchWords = (token) => {
         const queryParams = `?auth=${token}`;
         axios.get('/pwd_holder.json' + queryParams)
         .then(res => {
-            const fetchedWords = [];
-
-            // TODO: convert data to needed format
-            
-            for (let key in res.data) {
-                fetchedWords.push({
-                    ...res.data[key],
-                    userId: key
-                });
-            }
+            const fetchedWords = res.data;
 
             dispatch(fbFetchSuccess(fetchedWords));
         })
