@@ -11,41 +11,41 @@ const initialState = {
     userData: {
         Urgent: [{
             username: 'abeaman',
-            lastPwdChange: '4 May 2018',
+            last_word: '4 May 2018',
             email: 'spamalotmucho@gmail.com'
         }, {
             username: 'staff1',
-            lastPwdChange: '1 Jan 2017',
+            last_word: '1 Jan 2017',
             email: 'none'
         }, {
             username: 'staff2',
-            lastPwdChange: '1 Jan 2017',
+            last_word: '1 Jan 2017',
             email: 'none'
         }],
         Warning: [{
             username: 'abeaman',
-            lastPwdChange: '4 May 2018',
+            last_word: '4 May 2018',
             email: 'spamalotmucho@gmail.com'
         }, {
             username: 'staff6',
-            lastPwdChange: '1 Jan 2017',
+            last_word: '1 Jan 2017',
             email: 'none'
         }],
         Normal: [{
             username: 'abeaman',
-            lastPwdChange: '4 May 2018',
+            last_word: '4 May 2018',
             email: 'spamalotmucho@gmail.com'
         }, {
             username: 'staff3',
-            lastPwdChange: '1 Jan 2017',
+            last_word: '1 Jan 2017',
             email: 'none'
         }, {
             username: 'staff4',
-            lastPwdChange: '1 Jan 2017',
+            last_word: '1 Jan 2017',
             email: 'none'
         }, {
             username: 'staff5',
-            lastPwdChange: '1 Jan 2017',
+            last_word: '1 Jan 2017',
             email: 'none'
         }]
     }

@@ -21,7 +21,7 @@ const row = (props) => {
         <tr className={classes.Container}>
             {wrapCellContent( props.type, data.username )}
             {wrapCellContent( props.type, data.email )}
-            {wrapCellContent( props.type, data.lastPwdChange )}
+            {wrapCellContent( props.type, data.last_word )}
         </tr>
     );
 };
