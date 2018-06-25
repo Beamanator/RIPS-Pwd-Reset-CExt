@@ -52,15 +52,15 @@ const initialState = {
 };
 
 // collect words from RIPS website
-const collectRIPSWordsStart = (state, action) => {
+const ripsFetchStart = (state, action) => {
     return updateObject(state, { error: null, loading: true });
 };
-const collectRIPSWordsSuccess = (state, action) => {
+const ripsFetchSuccess = (state, action) => {
     return updateObject(state, {
         error: null, loading: false, ripsData: action.userData
     });
 };
-const collectRIPSWordsFail = (state, action) => {
+const ripsFetchFail = (state, action) => {
     return updateObject(state, { error: action.error, loading: false });
 };
 
@@ -92,10 +92,10 @@ const fbStoreFail = (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        // collect -> RIPS
-        case actionTypes.COLLECT_RIPS_WORDS_START: return collectRIPSWordsStart(state, action);
-        case actionTypes.COLLECT_RIPS_WORDS_SUCCESS: return collectRIPSWordsSuccess(state, action);
-        case actionTypes.COLLECT_RIPS_WORDS_FAIL: return collectRIPSWordsFail(state, action);
+        // get -> RIPS
+        case actionTypes.COLLECT_RIPS_WORDS_START: return ripsFetchStart(state, action);
+        case actionTypes.COLLECT_RIPS_WORDS_SUCCESS: return ripsFetchSuccess(state, action);
+        case actionTypes.COLLECT_RIPS_WORDS_FAIL: return ripsFetchFail(state, action);
         // get -> FB
         case actionTypes.FB_FETCH_START: return fbFetchStart(state, action);
         case actionTypes.FB_FETCH_SUCCESS: return fbFetchSuccess(state, action);

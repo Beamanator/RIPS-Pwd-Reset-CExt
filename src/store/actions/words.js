@@ -65,30 +65,30 @@ export const fbStoreWords = () => {
 };
 
 // tell UI the process has started
-export const collectRIPSWordsStart = () => {
+export const ripsFetchStart = () => {
     return {
         type: actionTypes.COLLECT_RIPS_WORDS_START
     };
 };
 // success!
-export const collectRIPSWordsSuccess = (data) => {
+export const ripsFetchSuccess = (data) => {
     return {
         type: actionTypes.COLLECT_RIPS_WORDS_SUCCESS,
         userData: data
     };
 };
 // fail :(
-export const collectRIPSWordsFail = (error) => {
+export const ripsFetchFail = (error) => {
     return {
         type: actionTypes.COLLECT_RIPS_WORDS_FAIL,
         error: error
     };
 };
 // KICK OFF PROCESS - collect rips words from the website
-export const collectRIPSWords = () => {
+export const ripsFetchWords = () => {
     return dispatch => {
         // begin collecting words
-        dispatch(collectRIPSWordsStart());
+        dispatch(ripsFetchStart());
 
         // TODO: send message to background to start collecting data here
         // if succeed, dispatch success. if error, dispatch error

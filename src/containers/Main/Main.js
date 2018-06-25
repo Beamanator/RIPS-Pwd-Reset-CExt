@@ -48,8 +48,8 @@ class Main extends Component {
         >[START]</Button>
     );
     beginCollectDataHandler = () => {
-        this.props.onFBFetchWords(this.props.token);
-        this.props.onCollectRIPSWords();
+        this.props.onFbFetchWords(this.props.token);
+        this.props.onRipsFetchWords();
     }
 
     render () {
@@ -132,8 +132,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onLogout: () => dispatch(actions.logout()),
-        onFBFetchWords: (token) => dispatch(actions.fbFetchWords(token)),
-        onCollectRIPSWords: () => dispatch(actions.collectRIPSWords()),
+        onFbFetchWords: (token) => dispatch(actions.fbFetchWords(token)),
+        onRipsFetchWords: () => dispatch(actions.ripsFetchWords()),
         onBackgroundPortInit: (chrome) => dispatch(actions.backgroundPortInit(chrome))
     };
 };

@@ -14,5 +14,5 @@ export {
 
 export {
     fbFetchWords,
-    collectRIPSWords
+    ripsFetchWords
 } from './words';
