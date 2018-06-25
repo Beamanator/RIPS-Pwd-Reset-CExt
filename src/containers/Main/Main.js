@@ -31,18 +31,33 @@ class Main extends Component {
         // TODO: destroy the background port - call action!
     }
     
+    getLogoutBtn = () => (
+        <Button
+            btnType="Danger"
+            clicked={this.logoutHandler}
+        >[LOGOUT]</Button>
+    );
     logoutHandler = () => {
         this.props.onLogout();
     }
 
+    getBeginCollectDataBtn = () => (
+        <Button
+            btnType="Success"
+            clicked={this.beginCollectDataHandler}
+        >[START]</Button>
+    );
+    beginCollectDataHandler = () => {
+        this.props.onFBFetchWords(this.props.token);
+        this.props.onCollectRIPSWords();
+    }
+
     render () {
         // extract logoutBtn code
-        const logoutBtn = (
-            <Button
-                btnType="Danger"
-                clicked={this.logoutHandler}
-            >[LOGOUT]</Button>
-        );
+        const logoutBtn = this.getLogoutBtn();
+
+        // extract beginAnalysisBtn code
+        const beginCollectDataBtn = this.getBeginCollectDataBtn();
 
         // extract connection status code
         let connectionStatus, connectionStatusClass;
@@ -57,10 +72,27 @@ class Main extends Component {
             <span className={classes[connectionStatusClass]}>{connectionStatus}</span>
         );
 
+        // extra error text here
+        let error = null;
+        if (this.props.error && this.props.error.message) {
+            error = <div>this.props.error.message</div>;
+        }
+
+        // set data available text
+        let ripsDataAvail = <span className={classes.Disconnected}>[NO]</span>,
+            fbDataAvail = <span className={classes.Disconnected}>[NO]</span>;
+        if (this.props.ripsDataAvail)
+            ripsDataAvail = <span className={classes.Connected}>[YES]</span>;
+        if (this.props.fbDataAvail)
+            fbDataAvail = <span className={classes.Connected}>[YES]</span>;
+
         return (
             <div>
                 <div>WHEN DONE, PLEASE {logoutBtn}</div>
                 <div>Connection Status: {connectionStatusContainer}</div>
+                <div>Begin Data Collection: {beginCollectDataBtn}</div>
+                <div>Data in Store: RIPS {ripsDataAvail} - Firebase {fbDataAvail}</div>
+                {error}
                 <Spacer height='10px' />
                 <Table
                     title="CHANGE NOW"
@@ -87,14 +119,21 @@ class Main extends Component {
 const mapStateToProps = state => {
     return {
         bkgPort: state.port.port,
-        userData: state.words.userData
+        
+        fbDataAvail: state.words.fbData && Object.keys(state.words.fbData).length > 0,
+        ripsDataAvail: state.words.ripData && state.words.ripsData.length > 0,
+        userData: state.words.userData,
+        error: state.words.error,
+
+        token: state.auth.token
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onLogout: () => dispatch(actions.logout()),
-        onCollectPwds: () => dispatch(),
+        onFBFetchWords: (token) => dispatch(actions.fbFetchWords(token)),
+        onCollectRIPSWords: () => dispatch(actions.collectRIPSWords()),
         onBackgroundPortInit: (chrome) => dispatch(actions.backgroundPortInit(chrome))
     };
 };
