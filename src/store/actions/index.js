@@ -11,3 +11,8 @@ export {
 export {
     backgroundPortInit
 } from './port';
+
+export {
+    fbFetchWords,
+    collectRIPSWords
+} from './words';

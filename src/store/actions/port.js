@@ -39,7 +39,7 @@ export const backgroundPortInit = (chrome) => {
             }
         })
 
-        // next, (in callback) set port in redux store
+        // TODO: next, (in callback) set port in redux store
         // dispatch(backgroundPortSet(port));
     };
 };

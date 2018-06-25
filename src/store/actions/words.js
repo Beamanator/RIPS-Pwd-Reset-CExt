@@ -1,29 +1,105 @@
-// import axios from 'axios';
+import * as actionTypes from './actionTypes';
+import axios from '../../axios-words';
 
-import * as actionTypes from '../actions/actionTypes';
-
-// WORDS action creator functions go here
-
-// store words to FB db, right?
-export const fbStoreWords = () => {
+export const fbFetchStart = () => {
     return {
-        type: actionTypes.STORE_WORDS
+        type: actionTypes.FB_FETCH_START
+    };
+};
+export const fbFetchSuccess = (data) => {
+    return {
+        type: actionTypes.FB_FETCH_SUCCESS,
+        userData: data
+    };
+};
+export const fbFetchFail = (error) => {
+    return {
+        type: actionTypes.FB_FETCH_FAIL,
+        error: error
+    };
+};
+// KICK OFF PROCESS - get rips words from firebase
+export const fbFetchWords = (token) => {
+    return dispatch => {
+        dispatch(fbFetchStart());
+
+        // get words from FB here
+        const queryParams = `?auth=${token}`;
+        axios.get('/pwd_holder.json' + queryParams)
+        .then(res => {
+            const fetchedWords = [];
+
+            // TODO: convert data to needed format
+            
+            for (let key in res.data) {
+                fetchedWords.push({
+                    ...res.data[key],
+                    userId: key
+                });
+            }
+
+            dispatch(fbFetchSuccess(fetchedWords));
+        })
+        .catch(err => {
+            dispatch(fbFetchFail(err));
+        });
     };
 };
 
-export const fbFetchWords = () => {
+export const fbStoreStart = () => {
+    return {
+        type: actionTypes.FB_STORE_START
+    };
+};
+export const fbStoreSuccess = (data) => {
+    return {
+        type: actionTypes.FB_STORE_SUCCESS,
+        userData: data
+    };
+};
+export const fbStoreFail = (error) => {
+    return {
+        type: actionTypes.FB_STORE_FAIL,
+        error: error
+    };
+};
+// KICK OFF PROCESS - store rips words to firebase
+export const fbStoreWords = () => {
     return dispatch => {
-        // dispatch(wordsStart());
+        dispatch(fbFetchStart());
 
-        // type: actionTypes.FETCH_WORDS
-        // TODO: get words from FB here? These should be displayed somehow right?
+        // TODO: store words to FB here
+        // if succeed, dispatch success. if error, dispatch error
     };
 };
 
-export const harvestWords = () => {
+// tell UI the process has started
+export const collectRIPSWordsStart = () => {
+    return {
+        type: actionTypes.COLLECT_RIPS_WORDS_START
+    };
+};
+// success!
+export const collectRIPSWordsSuccess = (data) => {
+    return {
+        type: actionTypes.COLLECT_RIPS_WORDS_SUCCESS,
+        userData: data
+    };
+};
+// fail :(
+export const collectRIPSWordsFail = (error) => {
+    return {
+        type: actionTypes.COLLECT_RIPS_WORDS_FAIL,
+        error: error
+    };
+};
+// KICK OFF PROCESS - collect rips words from the website
+export const collectRIPSWords = () => {
     return dispatch => {
-        // TODO: send message to background.js to begin harvesting?
+        // begin collecting words
+        dispatch(collectRIPSWordsStart());
 
-        // start spinner until data comes back?
-    }
+        // TODO: send message to background to start collecting data here
+        // if succeed, dispatch success. if error, dispatch error
+    };
 };

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { apiKey } from '../../shared/auth/apiKey';
+import { apiKey } from '../../shared/auth/private';
 
 import * as actionTypes from '../actions/actionTypes';
 
