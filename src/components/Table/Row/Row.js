@@ -2,14 +2,14 @@ import React from 'react';
 
 import classes from './Row.css';
 
-const wrapCell = (type, content) => {
+const wrapCellContent = (type, content) => {
     // if no content, set to empty str
     if (!content) content = '';
     
     if (type === 'header') {
-        return <th>{content}</th>;
+        return <th className={classes.HeadCell}>{content}</th>;
     } else {
-        return <td>{content}</td>;
+        return <td className={classes.Cell}>{content}</td>;
     }
 };
 
@@ -19,9 +19,9 @@ const row = (props) => {
 
     return (
         <tr className={classes.Container}>
-            {wrapCell( props.type, data.username )}
-            {wrapCell( props.type, data.email )}
-            {wrapCell( props.type, data.lastPwdChange )}
+            {wrapCellContent( props.type, data.username )}
+            {wrapCellContent( props.type, data.email )}
+            {wrapCellContent( props.type, data.lastPwdChange )}
         </tr>
     );
 };

@@ -3,6 +3,10 @@
     height: 40px;
 }
 
-.Header {
-    background-color: #d85151;
+.HeadCell {
+    padding: 10px 15px;
+}
+
+.Cell {
+    padding: 5px;
 }

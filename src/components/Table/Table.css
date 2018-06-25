@@ -44,5 +44,5 @@
     background-color: whitesmoke;
 }
 .TableBody tr:nth-child(even) {
-    background-color: grey;
+    background-color: rgb(180, 180, 180);
 }
