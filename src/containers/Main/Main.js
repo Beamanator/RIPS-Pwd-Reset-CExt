@@ -50,7 +50,17 @@ class Main extends Component {
     beginCollectDataHandler = () => {
         this.props.onFbFetchWords(this.props.token);
         this.props.onRipsFetchWords(this.props.bkgPort);
-    }
+    };
+
+    getCompileDataBtn = () => (
+        <Button
+            btnType="Success"
+            clicked={this.compileDataHandler}
+        >[COMPILE!]</Button> 
+    );
+    compileDataHandler = () => {
+        console.log('time to compile data!');
+    };
 
     render () {
         // extract logoutBtn code
@@ -94,12 +104,16 @@ class Main extends Component {
         const ripsAvailElem = <span className={ripsAvailClass}>{ripsAvailText}</span>,
             fbAvailElem = <span className={fbAvailClass}>{fbAvailText}</span>
 
+        // if all data is available, show "compile" button!
+        const compileElem = <div>Ready! Press it: {this.getCompileDataBtn()}</div>;
+
         return (
             <div>
                 <div>WHEN DONE, PLEASE {logoutBtn}</div>
                 <div>Connection Status: {connectionStatusContainer}</div>
                 <div>Begin Data Collection: {beginCollectDataBtn}</div>
                 <div>Data in Store: RIPS {ripsAvailElem} - Firebase {fbAvailElem}</div>
+                {this.props.fbAvail && this.props.ripsAvail ? compileElem : null}
                 {error}
                 <Spacer height='10px' />
                 <Table
