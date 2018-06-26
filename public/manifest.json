@@ -33,7 +33,10 @@
 	"content_scripts": [
 		{
 			"matches": [ "http://rips.247lib.com/StarsSup/User/UserDetails*" ],
-			"js": [ "extension_code/js/main.js" ]
+			"js": [
+				"extension_code/js/portCodes.js",
+				"extension_code/js/main.js"
+			]
 		}
 	],
 
