@@ -6,22 +6,30 @@ const initialState = {
     error: null
 };
 
-const backgroundPortSet = (state, action) => {
+const portSet = (state, action) => {
     return updateObject(state, {
-        port: action.port
+        port: action.port, error: null
     });
 };
 
-const backgroundPortRemove = (state, action) => {
+const portRemove = (state, action) => {
     return updateObject(state, {
-        port: null
+        port: null, error: null
+    });
+};
+
+const portError = (state, action) => {
+    return updateObject(state, {
+        error: action.error
     });
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.BACKGROUND_PORT_SET: return backgroundPortSet(state, action);
-        case actionTypes.BACKGROUND_PORT_REMOVE: return backgroundPortRemove(state, action);
+        case actionTypes.BACKGROUND_PORT_SET: return portSet(state, action);
+        case actionTypes.BACKGROUND_PORT_REMOVE: return portRemove(state, action);
+        case actionTypes.BACKGROUND_PORT_ERROR: return portError(state, action);
+
         default:
             return state;
     }

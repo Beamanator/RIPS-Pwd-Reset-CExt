@@ -9,7 +9,8 @@ export {
 } from './auth';
 
 export {
-    backgroundPortInit
+    backgroundPortInit,
+    portInitCollect
 } from './port';
 
 export {

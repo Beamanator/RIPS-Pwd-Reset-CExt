@@ -4,8 +4,10 @@ import { updateObject } from '../../shared/utils';
 const initialState = {
     words: [],
     error: null,
-    loading: false,
+    fbStoreloading: false,
+    fbFetchLoading: false,
     fbData: null,
+    ripsFetchLoading: false,
     ripsData: null,
     // NOTE: emails come from RIPS, NOT STORED IN FB
     userData: {
@@ -53,41 +55,41 @@ const initialState = {
 
 // collect words from RIPS website
 const ripsFetchStart = (state, action) => {
-    return updateObject(state, { error: null, loading: true });
+    return updateObject(state, { error: null, ripsFetchLoading: true });
 };
 const ripsFetchSuccess = (state, action) => {
     return updateObject(state, {
-        error: null, loading: false, ripsData: action.userData
+        error: null, ripsFetchLoading: false, ripsData: action.userData
     });
 };
 const ripsFetchFail = (state, action) => {
-    return updateObject(state, { error: action.error, loading: false });
+    return updateObject(state, { error: action.error, ripsFetchLoading: false });
 };
 
 // get words from FB database
 const fbFetchStart = (state, action) => {
-    return updateObject(state, { error: null, loading: true });
+    return updateObject(state, { error: null, fbFetchLoading: true });
 };
 const fbFetchSuccess = (state, action) => {
     return updateObject(state, {
-        error: null, loading: false, fbData: action.userData
+        error: null, fbFetchLoading: false, fbData: action.userData
     });
 };
 const fbFetchFail = (state, action) => {
-    return updateObject(state, { error: action.error, loading: false });
+    return updateObject(state, { error: action.error, fbFetchLoading: false });
 };
 
 // store words to FB database
 const fbStoreStart = (state, action) => {
-    return updateObject(state, { error: null, loading: true });
+    return updateObject(state, { error: null, fbStoreloading: true });
 };
 const fbStoreSuccess = (state, action) => {
     return updateObject(state, {
-        error: null, loading: false, userData: action.userData
+        error: null, fbStoreloading: false, userData: action.userData
     });
 };
 const fbStoreFail = (state, action) => {
-    return updateObject(state, { error: action.error, loading: false });
+    return updateObject(state, { error: action.error, fbStoreloading: false });
 };
 
 const reducer = (state = initialState, action) => {

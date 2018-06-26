@@ -1,18 +1,19 @@
 import * as actionTypes from './actionTypes';
+import * as portCodes from '../portCodes';
 import axios from '../../axios-words';
 
-export const fbFetchStart = () => {
+const fbFetchStart = () => {
     return {
         type: actionTypes.FB_FETCH_START
     };
 };
-export const fbFetchSuccess = (data) => {
+const fbFetchSuccess = (data) => {
     return {
         type: actionTypes.FB_FETCH_SUCCESS,
         userData: data
     };
 };
-export const fbFetchFail = (error) => {
+const fbFetchFail = (error) => {
     return {
         type: actionTypes.FB_FETCH_FAIL,
         error: error
@@ -37,18 +38,18 @@ export const fbFetchWords = (token) => {
     };
 };
 
-export const fbStoreStart = () => {
+const fbStoreStart = () => {
     return {
         type: actionTypes.FB_STORE_START
     };
 };
-export const fbStoreSuccess = (data) => {
+const fbStoreSuccess = (data) => {
     return {
         type: actionTypes.FB_STORE_SUCCESS,
         userData: data
     };
 };
-export const fbStoreFail = (error) => {
+const fbStoreFail = (error) => {
     return {
         type: actionTypes.FB_STORE_FAIL,
         error: error
@@ -65,32 +66,42 @@ export const fbStoreWords = () => {
 };
 
 // tell UI the process has started
-export const ripsFetchStart = () => {
+const ripsFetchStart = () => {
     return {
         type: actionTypes.COLLECT_RIPS_WORDS_START
     };
 };
 // success!
-export const ripsFetchSuccess = (data) => {
+const ripsFetchSuccess = (data) => {
     return {
         type: actionTypes.COLLECT_RIPS_WORDS_SUCCESS,
         userData: data
     };
 };
 // fail :(
-export const ripsFetchFail = (error) => {
+const ripsFetchFail = (error) => {
     return {
         type: actionTypes.COLLECT_RIPS_WORDS_FAIL,
         error: error
     };
 };
 // KICK OFF PROCESS - collect rips words from the website
-export const ripsFetchWords = () => {
+export const ripsFetchWords = (port) => {
     return dispatch => {
         // begin collecting words
         dispatch(ripsFetchStart());
 
-        // TODO: send message to background to start collecting data here
+        // if in development mode, port may not be available
+        if (!port) {
+            const errMsg = 'No Port available! Check connection & environment';
+            dispatch(ripsFetchFail(errMsg));
+            return;
+        }
+
+        // Here, send message to background to start collecting data
+        port.postMessage({ code: portCodes.START_IMPORT });
+
         // if succeed, dispatch success. if error, dispatch error
+        // NOTE: success / fail may come in port.js - message listener
     };
 };
