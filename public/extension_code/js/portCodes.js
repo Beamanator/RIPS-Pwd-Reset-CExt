@@ -17,3 +17,4 @@ const NEXT_URL_REDIRECT = 'NEXT_URL_REDIRECT';
 // receive codes (from background.js)
 const START_IMPORT = 'START_IMPORT';
 const CONTINUE_IMPORT = 'CONTINUE_IMPORT';
+const IMPORT_DONE = 'IMPORT_DONE';

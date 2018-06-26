@@ -1,5 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import * as portCodes from '../portCodes';
+import * as actions from './index';
 
 // store background port in store
 const portSet = (port) => {
@@ -42,22 +43,27 @@ export const backgroundPortInit = (chrome) => {
                 case portCodes.INIT_PORT:
                     dispatch(portSet(port));
                     break;
-                    
+
                 // called when user data comes back from background.js
                 case portCodes.USER_DATA_PAYLOAD:
                     // TODO: store user data in store / dispatch action to do that
                     const userData = msg.data;
+                    dispatch(actions.ripsAddUserData(userData));
 
                     // send message back, indicating data was received &
                     //  data fetch can continue
                     port.postMessage({ code: portCodes.CONTINUE_IMPORT });
                     break;
 
+                // called when rips word import has completed
+                case portCodes.IMPORT_DONE:
+                    // tell words store that words import is successful
+                    dispatch(actions.ripsFetchSuccess());
+                    break;
+
                 // invalid msg code recognized in background.js
                 case portCodes.ERROR_CODE_NOT_RECOGNIZED:
-                    dispatch(portError(
-                        `${msg.source} - ${msg.data}`
-                    ));
+                    dispatch(portError( `${msg.source} - ${msg.data}` ));
                     break;
                 
                 // invalid msg code recognized here :)
@@ -65,6 +71,7 @@ export const backgroundPortInit = (chrome) => {
                     dispatch(portError(
                         `REACT MSG CODE <${msg.code}> NOT VALID`
                     ));
+                    // TODO: tell background.js import is not in progress
             }
         });
 

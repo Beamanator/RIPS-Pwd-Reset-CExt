@@ -1,7 +1,7 @@
 // ==============================================================================
 //                                PORT CONNECT
 // ==============================================================================
-var port = chrome.runtime.connect({ name: CONTENT_SCRIPT_PORT });
+const port = chrome.runtime.connect({ name: CONTENT_SCRIPT_PORT });
 
 // ==============================================================================
 //                                PORT CONNECT
@@ -39,6 +39,8 @@ const continueImport = () => {
     // if there's none left, we're done!
     if (nextPageElem.length === 0) {
         // TODO: send message to background saying we're done :)
+        // TODO: tell background.js import is not in progress
+        port.postMessage({ code: IMPORT_DONE });
     }
 
     // if some are available, only be happy if there's only 1 :)
@@ -52,6 +54,7 @@ const continueImport = () => {
     // if there are many, throw error!
     else {
         // TODO: throw error if here - too many elements with just '>' on page
+        // TODO: tell background.js import is not in progress
     }
 }
 
@@ -93,6 +96,10 @@ port.onMessage.addListener(function(msg) {
         
         case INIT_PORT:
             console.log('Successfully connected to background.js');
+            // if autoStart flag is true, start automatically!
+            if (msg.autoStart) {
+                startImport();
+            }
             break;
 
         default: // code not recognized - send error back

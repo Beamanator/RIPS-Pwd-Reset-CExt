@@ -130,9 +130,10 @@ const mapStateToProps = state => {
         
         fbFetchLoading: state.words.fbFetchLoading,
         fbStoreLoading: state.words.fbStoreLoading,
-        fbAvail: state.words.fbData && Object.keys(state.words.fbData).length > 0,
         ripsFetchLoading: state.words.ripsFetchLoading,
-        ripsAvail: state.words.ripsData && state.words.ripsData.length > 0,
+
+        fbAvail: state.words.fbDataAvail,
+        ripsAvail: state.words.ripsDataAvail,
         
         userData: state.words.userData,
         error: state.words.error,

@@ -68,20 +68,13 @@ export const fbStoreWords = () => {
 // tell UI the process has started
 const ripsFetchStart = () => {
     return {
-        type: actionTypes.COLLECT_RIPS_WORDS_START
-    };
-};
-// success!
-const ripsFetchSuccess = (data) => {
-    return {
-        type: actionTypes.COLLECT_RIPS_WORDS_SUCCESS,
-        userData: data
+        type: actionTypes.RIPS_FETCH_START
     };
 };
 // fail :(
 const ripsFetchFail = (error) => {
     return {
-        type: actionTypes.COLLECT_RIPS_WORDS_FAIL,
+        type: actionTypes.RIPS_FETCH_FAIL,
         error: error
     };
 };
@@ -103,5 +96,18 @@ export const ripsFetchWords = (port) => {
 
         // if succeed, dispatch success. if error, dispatch error
         // NOTE: success / fail may come in port.js - message listener
+    };
+};
+// success! done! - called in port.js actions
+export const ripsFetchSuccess = () => {
+    return {
+        type: actionTypes.RIPS_FETCH_SUCCESS
+    };
+};
+// add payload data to store!
+export const ripsAddUserData = (data) => {
+    return {
+        type: actionTypes.RIPS_ADD_USER_DATA,
+        userData: data
     };
 };
