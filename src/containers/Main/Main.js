@@ -49,7 +49,7 @@ class Main extends Component {
     );
     beginCollectDataHandler = () => {
         this.props.onFbFetchWords(this.props.token);
-        this.props.onRipsFetchWords();
+        this.props.onRipsFetchWords(this.props.bkgPort);
     }
 
     render () {
@@ -79,19 +79,27 @@ class Main extends Component {
         }
 
         // set data available text
-        let ripsDataAvail = <span className={classes.Disconnected}>[NO]</span>,
-            fbDataAvail = <span className={classes.Disconnected}>[NO]</span>;
-        if (this.props.ripsDataAvail)
-            ripsDataAvail = <span className={classes.Connected}>[YES]</span>;
-        if (this.props.fbDataAvail)
-            fbDataAvail = <span className={classes.Connected}>[YES]</span>;
+        let ripsAvailText = '[NO]', ripsAvailClass = classes.Disconnected,
+            fbAvailText = '[NO]', fbAvailClass = classes.Disconnected;
+        if (this.props.ripsFetchLoading) {
+            ripsAvailText = '[...]';
+        } else if (this.props.ripsAvail) {
+            ripsAvailText = '[YES]';    ripsAvailClass = classes.Connected;
+        }
+        if (this.props.fbFetchLoading) {
+            fbAvailText = '[...]';
+        } else if (this.props.fbAvail) {
+            fbAvailText = '[YES]';      fbAvailClass = classes.Connected;
+        }
+        const ripsAvailElem = <span className={ripsAvailClass}>{ripsAvailText}</span>,
+            fbAvailElem = <span className={fbAvailClass}>{fbAvailText}</span>
 
         return (
             <div>
                 <div>WHEN DONE, PLEASE {logoutBtn}</div>
                 <div>Connection Status: {connectionStatusContainer}</div>
                 <div>Begin Data Collection: {beginCollectDataBtn}</div>
-                <div>Data in Store: RIPS {ripsDataAvail} - Firebase {fbDataAvail}</div>
+                <div>Data in Store: RIPS {ripsAvailElem} - Firebase {fbAvailElem}</div>
                 {error}
                 <Spacer height='10px' />
                 <Table
@@ -120,8 +128,12 @@ const mapStateToProps = state => {
     return {
         bkgPort: state.port.port,
         
-        fbDataAvail: state.words.fbData && Object.keys(state.words.fbData).length > 0,
-        ripsDataAvail: state.words.ripData && state.words.ripsData.length > 0,
+        fbFetchLoading: state.words.fbFetchLoading,
+        fbStoreLoading: state.words.fbStoreLoading,
+        fbAvail: state.words.fbData && Object.keys(state.words.fbData).length > 0,
+        ripsFetchLoading: state.words.ripsFetchLoading,
+        ripsAvail: state.words.ripsData && state.words.ripsData.length > 0,
+        
         userData: state.words.userData,
         error: state.words.error,
 
@@ -133,7 +145,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onLogout: () => dispatch(actions.logout()),
         onFbFetchWords: (token) => dispatch(actions.fbFetchWords(token)),
-        onRipsFetchWords: () => dispatch(actions.ripsFetchWords()),
+        onRipsFetchWords: (port) => dispatch(actions.ripsFetchWords(port)),
         onBackgroundPortInit: (chrome) => dispatch(actions.backgroundPortInit(chrome))
     };
 };
