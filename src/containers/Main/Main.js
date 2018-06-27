@@ -10,6 +10,14 @@ import * as actions from '../../store/actions/index';
 import classes from './Main.css';
 
 class Main extends Component {
+    state = {
+        formattedData: null,
+
+        urgent: [],
+        warning: [],
+        normal: []
+    }
+
     componentDidMount() {
         console.log('<Main> NODE_ENV:',process.env.NODE_ENV);
         // Warn user if we're in development environment
@@ -59,7 +67,78 @@ class Main extends Component {
         >[COMPILE!]</Button> 
     );
     compileDataHandler = () => {
-        console.log('time to compile data!');
+        // rips data is source of truth, so loop through it, trying to add
+        //  new props to each element
+        const analyzedData = this.props.ripsData.reduce((acc, user) => {
+            // get user's username
+            const username = user.username;
+            const todayString = (new Date()).toDateString();
+
+            // get fb data about this user
+            const fbUser = this.props.fbData[username];
+
+            // create obj for table
+            const tableUserData = {
+                username: username,
+                last_word: user.word,
+                email: user.email
+            };
+
+            // if no data was found from fb, it's a new(ish) user
+            if (!fbUser) {
+                // automatically in the non-urgent password change group
+                acc.normal.push( tableUserData );
+            }
+            
+            // user already exists in fb, so analyze when password was changed last to figure
+            //  out which urgency group user should go in
+            else {
+                // get last time this word was updated
+                let lastUpdated = new Date(fbUser.last_updated);
+
+                // calculate difference in days between now and last_updated
+                // 1000 -> ms, 60 -> min, 60 -> hr, 24 -> days
+                let numDays = Math.round(
+                    (new Date() - lastUpdated) / (1000 * 60 * 60 * 24)
+                );
+
+                // < 5 months = 150 days = good / normal (no need to change yet)
+                if (numDays < (5 * 30))
+                    acc.normal.push( tableUserData );
+                else if (numDays < (6.5 * 30)) // < 6.5 months
+                    acc.warning.push( tableUserData );
+                else // > 6.5 months :(
+                    acc.urgent.push( tableUserData );
+            }
+
+            // create updated node for fb
+            acc.formattedData[username] = {
+                last_updated: todayString,
+                last_word: user.word
+            };
+
+            return acc;
+        }, {
+            formattedData: {},
+            urgent: [], warning: [], normal: []
+        });
+
+        this.setState({
+            formattedData: analyzedData.formattedData,
+            urgent: analyzedData.urgent,
+            warning: analyzedData.warning,
+            normal: analyzedData.normal
+        })
+    };
+
+    getSaveDataBtn = () => (
+        <Button
+            btnType="Success"
+            clicked={this.saveDataHandler}
+        >[SAVE!]</Button>
+    );
+    saveDataHandler = () => {
+        console.log('woot! save this.state.formattedData to FB now!');
     };
 
     render () {
@@ -107,6 +186,48 @@ class Main extends Component {
         // if all data is available, show "compile" button!
         const compileElem = <div>Ready! Press it: {this.getCompileDataBtn()}</div>;
 
+        // once data is ready to be saved, show "save" button
+        const saveElem = <div>Save? {this.getSaveDataBtn()}</div>;
+
+        // extract tables & spacers - only display if there is data to display!
+        let urgentData = null, warningData = null, normalData = null;
+        if (this.state.urgent.length > 0) {
+            urgentData = (
+                <div>
+                    <Spacer height='10px' />
+                    <Table
+                        title="CHANGE NOW"
+                        type="Urgent"
+                        data={this.state.urgent}
+                    />
+                </div>
+            );
+        }
+        if (this.state.warning.length > 0) {
+            warningData = (
+                <div>
+                    <Spacer height='10px' />
+                    <Table
+                        title="Change SOON"
+                        type="Warning"
+                        data={this.state.warning}
+                    />
+                </div>
+            );
+        }
+        if (this.state.normal.length > 0) {
+            normalData = (
+                <div>
+                    <Spacer height='10px' />
+                    <Table
+                        title="Changed Recently"
+                        type="Normal"
+                        data={this.state.normal}
+                    />
+                </div>
+            );
+        }
+
         return (
             <div>
                 <div>WHEN DONE, PLEASE {logoutBtn}</div>
@@ -114,25 +235,11 @@ class Main extends Component {
                 <div>Begin Data Collection: {beginCollectDataBtn}</div>
                 <div>Data in Store: RIPS {ripsAvailElem} - Firebase {fbAvailElem}</div>
                 {this.props.fbAvail && this.props.ripsAvail ? compileElem : null}
+                {saveElem}
                 {error}
-                <Spacer height='10px' />
-                <Table
-                    title="CHANGE NOW"
-                    type="Urgent"
-                    data={this.props.userData.Urgent}
-                />
-                <Spacer height='10px' />
-                <Table
-                    title="Change SOON"
-                    type="Warning"
-                    data={this.props.userData.Warning}
-                />
-                <Spacer height='10px' />
-                <Table
-                    title="Changed Recently"
-                    type="Normal"
-                    data={this.props.userData.Normal}
-                />
+                {urgentData}
+                {warningData}
+                {normalData}
             </div>
         );
     }
@@ -146,12 +253,12 @@ const mapStateToProps = state => {
         fbStoreLoading: state.words.fbStoreLoading,
         ripsFetchLoading: state.words.ripsFetchLoading,
 
+        fbData: state.words.fbData,
         fbAvail: state.words.fbDataAvail,
+        ripsData: state.words.ripsData,
         ripsAvail: state.words.ripsDataAvail,
         
-        userData: state.words.userData,
         error: state.words.error,
-
         token: state.auth.token
     };
 };

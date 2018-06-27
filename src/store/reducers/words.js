@@ -15,6 +15,9 @@ const initialState = {
     ripsData: [],
 
     // NOTE: emails come from RIPS, NOT STORED IN FB
+    combinedData: null,
+    formattedData: null, // formatted into 3 sections (Urgent, Warning, Normal)
+    // TODO: reset this to empty by default
     userData: {
         Urgent: [{
             username: 'abeaman',
