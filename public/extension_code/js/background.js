@@ -180,25 +180,3 @@ chrome.runtime.onConnect.addListener(port => {
             importInProgress = false;
     }
 });
-
-// delete ports? I think this can only be called elsewhere?
-// https://developer.chrome.com/extensions/messaging#port-lifetime
-// chrome.runtime.Port.onDisconnect.addListener(port => {
-//     console.assert(port.name == CONTENT_SCRIPT_PORT || port.name == REACT_APP_PORT);
-//     console.log('port disconnected:', port);
-//     switch (port.name) {
-//         case CONTENT_SCRIPT_PORT:
-//             console.log('TODO: disconnect content port');
-//             break;
-
-//         case REACT_APP_PORT:
-//             console.log('TODO: disconnect react port');
-//             break;
-
-//         default:
-//             console.error(
-//                 "ERR: somehow disconnecting port isn't recognized, but we said assert!",
-//                 port
-//             );
-//     }
-// });
