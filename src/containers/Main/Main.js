@@ -91,41 +91,48 @@ class Main extends Component {
             };
 
             // if no data was found from fb, it's a new(ish) user
-            if (fbNumUsers == 0) {
+            if (fbNumUsers === 0) {
                 // add last_changed as today!
                 tableUserData.last_changed = todayString;
 
-                // automatically add to the non-urgent password change group
+                // automatically add to the password change not needed group
                 acc.normal.push( tableUserData );
             }
             
-            // user already exists in fb, so analyze when password was changed last to figure
-            //  out which urgency group user should go in
+            // user already exists in fb, so analyze when password was changed
+            //  last to figure out which urgency group user should go in
             else {
                 // get user data from firebase
                 const fbUser = fbUserData[username];
 
                 // get last time this word was updated
-                let lastUpdated = new Date(fbUser.last_updated);
+                const lastUpdatedDate = new Date(fbUser.last_updated);
 
-                // update user's last_changed date
-                tableUserData.last_changed = lastUpdated.toDateString();
+                // if _words are different, last_changed should be TODAY
+                if (fbUser.last_word !== user.word) {
+                    tableUserData.last_changed = todayString;
 
-                // TODO: if _words are different, last_changed should be TODAY
-
-                // calculate difference in days between now and last_updated
-                // 1000 -> ms, 60 -> min, 60 -> hr, 24 -> days
-                let numDays = Math.round(
-                    (new Date() - lastUpdated) / (1000 * 60 * 60 * 24)
-                );
-
-                // < 5 months = 150 days = good / normal (no need to change yet)
-                if (numDays < (5 * 30))
+                    // changed today - push to 'normal' group
                     acc.normal.push( tableUserData );
-                else if (numDays < (6.5 * 30)) // < 6.5 months
-                    acc.warning.push( tableUserData );
-                else // > 6.5 months :(
-                    acc.urgent.push( tableUserData );
+                } else {
+                    // words are same -> last_changed should be previous updated
+                    //  date (unchanged)
+                    tableUserData.last_changed = lastUpdatedDate.toDateString();
+
+                    // calculate difference in days between now and last_updated
+                    // 1000 -> ms, 60 -> min, 60 -> hr, 24 -> days
+                    let numDays = Math.round(
+                        (new Date() - lastUpdatedDate) / (1000 * 60 * 60 * 24)
+                    );
+
+                    // < 5 months = 150 days = good / normal (no need to change yet)
+                    if (numDays < (5 * 30))
+                        acc.normal.push( tableUserData );
+                    else if (numDays < (6.5 * 30)) // < 6.5 months
+                        acc.warning.push( tableUserData );
+                    else // > 6.5 months :(
+                        acc.urgent.push( tableUserData );
+                }
             }
 
             // create updated node for fb
