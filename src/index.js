@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
-// import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 
 import App from './App';
 import authReducer from './store/reducers/auth';
@@ -16,17 +15,14 @@ import './index.css';
 // -> https://github.com/facebook/create-react-app/issues/3144
 // import registerServiceWorker from './registerServiceWorker';
 
-// TODO: change to create-react-act dev environment specific code
+// change to create-react-act dev environment specific code
 // process.env.NODE_ENV comes from config folder, env.js file
 // basically, if we're in development mode, show redux store, but if not
 // hide it from that extension.
-// const composeEnhancers = process.env.NODE_ENV === 'development'
-//     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-//     : null
-//         || compose;
-
-// TODO: try to get window.__ stuff from somewhere else? Seems to be unavailable
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = process.env.NODE_ENV === 'development'
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    : null
+        || compose;
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -34,25 +30,9 @@ const rootReducer = combineReducers({
     port: portReducer
 });
 
-// using package redux-devtools-extension
-// const store = createStore(rootReducer, composeWithDevTools(
-//     applyMiddleware(thunk),
-//     // other store enhancers if any
-// ));
-
 const store = createStore(rootReducer, composeEnhancers(
     applyMiddleware(thunk)
 ));
-
-// possible alternate approach
-// const store = createStore(
-//     rootReducer,
-//     {},
-//     compose(
-//         applyMiddleware(thunk),
-//         window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__()
-//     )
-// );
 
 const app = (
     <Provider store={store}>
