@@ -12,10 +12,7 @@ import classes from './Main.css';
 class Main extends Component {
     state = {
         formattedData: null,
-
-        urgent: [],
-        warning: [],
-        normal: []
+        urgent: [], warning: [], normal: []
     }
 
     componentDidMount() {
