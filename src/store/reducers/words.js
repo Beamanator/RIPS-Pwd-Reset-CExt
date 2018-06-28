@@ -5,6 +5,7 @@ const initialState = {
     words: [],
     error: null,
 
+    fbStoreSuccess: null,
     fbStoreloading: false,
     fbFetchLoading: false,
     fbDataAvail: false,
@@ -77,15 +78,19 @@ const fbFetchFail = (state, action) => {
 
 // store words to FB database
 const fbStoreStart = (state, action) => {
-    return updateObject(state, { error: null, fbStoreloading: true });
+    return updateObject(state, {
+        error: null, fbStoreloading: true, fbStoreSuccess: null
+    });
 };
 const fbStoreSuccess = (state, action) => {
     return updateObject(state, {
-        error: null, fbStoreloading: false, fbStoreSuccess: action.status
+        error: null, fbStoreloading: false, fbStoreSuccess: action.statusText
     });
 };
 const fbStoreFail = (state, action) => {
-    return updateObject(state, { error: action.error, fbStoreloading: false });
+    return updateObject(state, {
+        error: action.error, fbStoreloading: false, fbStoreSuccess: action.error
+    });
 };
 
 const reducer = (state = initialState, action) => {

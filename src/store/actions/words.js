@@ -43,10 +43,10 @@ const fbStoreStart = () => {
         type: actionTypes.FB_STORE_START
     };
 };
-const fbStoreSuccess = (statusCode) => {
+const fbStoreSuccess = (msg) => {
     return {
         type: actionTypes.FB_STORE_SUCCESS,
-        status: statusCode
+        statusText: msg
     };
 };
 const fbStoreFail = (error) => {
@@ -67,8 +67,8 @@ export const fbStoreWords = (userData, token) => {
         .then(response => {
             console.log('response -> ', response);
             // Should we do anything with the response?
-            const status = response.status;
-            dispatch(fbStoreSuccess(status));
+            const statusText = response.statusText;
+            dispatch(fbStoreSuccess(statusText));
         })
         .catch(err => {
             dispatch(fbStoreFail(err));

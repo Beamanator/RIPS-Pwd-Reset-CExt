@@ -213,8 +213,8 @@ class Main extends Component {
         const compileElem = <div>Ready! Press it: {this.getCompileDataBtn()}</div>;
 
         // once data is ready to be saved, show "save" button
-        const fbStoreDone = this.props.fbStoreLoading ? 'Done' : '...';
-        const saveElem = <div>Save? {this.getSaveDataBtn()} - Loading: {fbStoreDone}</div>;
+        // const fbStoreDone = this.props.fbStoreLoading ? 'Done' : '...';
+        const saveElem = <div>Save? {this.getSaveDataBtn()} - Loading: {this.props.fbStoreSuccess}</div>;
 
         // extract tables & spacers - only display if there is data to display!
         let urgentData = null, warningData = null, normalData = null;
@@ -279,7 +279,7 @@ const mapStateToProps = state => {
         ripsFetchLoading: state.words.ripsFetchLoading,
         fbFetchLoading: state.words.fbFetchLoading,
         fbStoreLoading: state.words.fbStoreLoading,
-        // TODO: add fbStoreSuccess message or something!
+        fbStoreSuccess: state.words.fbStoreSuccess,
 
         fbData: state.words.fbData,
         fbAvail: state.words.fbDataAvail,
