@@ -35,9 +35,10 @@ class Main extends Component {
         }
     }
 
-    componentWillUnmount() {
-        // TODO: destroy the background port - call action!
-    }
+    // componentWillUnmount() {
+    //     Don't need to destroy the background port
+    //     -> port will disconnect automatically
+    // }
     
     getLogoutBtn = () => (
         <Button
