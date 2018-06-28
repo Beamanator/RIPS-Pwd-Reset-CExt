@@ -79,7 +79,7 @@ const sendUrlRedirect = (nextUrl) => {
 };
 
 // ==============================================================================
-//                               PORT LISTENER
+//                               PORT LISTENERS
 // ==============================================================================
 
 port.onMessage.addListener(function(msg) {
