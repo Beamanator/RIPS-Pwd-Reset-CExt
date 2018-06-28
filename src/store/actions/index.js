@@ -15,6 +15,7 @@ export {
 
 export {
     fbFetchWords,
+    fbStoreWords,
     ripsFetchWords,
     ripsFetchSuccess,
     ripsAddUserData
