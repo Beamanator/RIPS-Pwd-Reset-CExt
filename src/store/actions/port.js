@@ -46,7 +46,7 @@ export const backgroundPortInit = (chrome) => {
 
                 // called when user data comes back from background.js
                 case portCodes.USER_DATA_PAYLOAD:
-                    // TODO: store user data in store / dispatch action to do that
+                    // store user data in store / dispatch action to do that
                     const userData = msg.data;
                     dispatch(actions.ripsAddUserData(userData));
 
@@ -71,7 +71,11 @@ export const backgroundPortInit = (chrome) => {
                     dispatch(portError(
                         `REACT MSG CODE <${msg.code}> NOT VALID`
                     ));
-                    // TODO: tell background.js import is not in progress
+                    // tell background.js to stop import
+                    port.postMessage({
+                        code: portCodes.ERROR_BKG_CODE_NOT_RECOGNIZED,
+                        errCode: msg.code
+                    });
             }
         });
 
