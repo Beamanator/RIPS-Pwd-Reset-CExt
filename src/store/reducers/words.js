@@ -12,53 +12,7 @@ const initialState = {
 
     ripsFetchLoading: false,
     ripsDataAvail: false,
-    ripsData: [],
-
-    // NOTE: emails come from RIPS, NOT STORED IN FB
-    combinedData: null,
-    formattedData: null, // formatted into 3 sections (Urgent, Warning, Normal)
-    // TODO: reset this to empty by default
-    userData: {
-        Urgent: [{
-            username: 'abeaman',
-            last_word: '4 May 2018',
-            email: 'spamalotmucho@gmail.com'
-        }, {
-            username: 'staff1',
-            last_word: '1 Jan 2017',
-            email: 'none'
-        }, {
-            username: 'staff2',
-            last_word: '1 Jan 2017',
-            email: 'none'
-        }],
-        Warning: [{
-            username: 'abeaman',
-            last_word: '4 May 2018',
-            email: 'spamalotmucho@gmail.com'
-        }, {
-            username: 'staff6',
-            last_word: '1 Jan 2017',
-            email: 'none'
-        }],
-        Normal: [{
-            username: 'abeaman',
-            last_word: '4 May 2018',
-            email: 'spamalotmucho@gmail.com'
-        }, {
-            username: 'staff3',
-            last_word: '1 Jan 2017',
-            email: 'none'
-        }, {
-            username: 'staff4',
-            last_word: '1 Jan 2017',
-            email: 'none'
-        }, {
-            username: 'staff5',
-            last_word: '1 Jan 2017',
-            email: 'none'
-        }]
-    }
+    ripsData: []
 };
 
 // collect words from RIPS website
@@ -127,8 +81,7 @@ const fbStoreStart = (state, action) => {
 };
 const fbStoreSuccess = (state, action) => {
     return updateObject(state, {
-        // TODO: probably don't need to store userData once it's stored in Fb!
-        error: null, fbStoreloading: false, userData: action.userData
+        error: null, fbStoreloading: false, fbStoreSuccess: action.status
     });
 };
 const fbStoreFail = (state, action) => {

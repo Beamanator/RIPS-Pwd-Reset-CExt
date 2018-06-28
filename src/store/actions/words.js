@@ -43,10 +43,10 @@ const fbStoreStart = () => {
         type: actionTypes.FB_STORE_START
     };
 };
-const fbStoreSuccess = (data) => {
+const fbStoreSuccess = (statusCode) => {
     return {
         type: actionTypes.FB_STORE_SUCCESS,
-        userData: data
+        status: statusCode
     };
 };
 const fbStoreFail = (error) => {
@@ -56,12 +56,23 @@ const fbStoreFail = (error) => {
     };
 };
 // KICK OFF PROCESS - store rips words to firebase
-export const fbStoreWords = () => {
+export const fbStoreWords = (userData, token) => {
     return dispatch => {
-        dispatch(fbFetchStart());
+        dispatch(fbStoreStart());
 
-        // TODO: store words to FB here
-        // if succeed, dispatch success. if error, dispatch error
+        // store words to FB
+        // POST will add a unique id before the data, PATCH should allow us to
+        //  edit as we like
+        axios.patch('/pwd_holder.json?auth=' + token, userData)
+        .then(response => {
+            console.log('response -> ', response);
+            // Should we do anything with the response?
+            const status = response.status;
+            dispatch(fbStoreSuccess(status));
+        })
+        .catch(err => {
+            dispatch(fbStoreFail(err));
+        });
     };
 };
 
@@ -94,8 +105,7 @@ export const ripsFetchWords = (port) => {
         // Here, send message to background to start collecting data
         port.postMessage({ code: portCodes.START_IMPORT });
 
-        // if succeed, dispatch success. if error, dispatch error
-        // NOTE: success / fail may come in port.js - message listener
+        // NOTE: data import actions called in actions/port.js - via port listener
     };
 };
 // success! done! - called in port.js actions
