@@ -20,11 +20,11 @@ const sendCodeOnly = (port, code) => {
     port.postMessage({ code: code });
 };
 
-const sendPortInit = (port) => {
+const sendPortInit = (port, autoStartFlag) => {
     if (port) {
         port.postMessage({
             code: INIT_PORT,
-            autoStart: importInProgress // if in progress, import should auto start
+            autoStart: autoStartFlag // if in progress, import should auto start
         });
     } else {
         console.error(`sendPortInit failed - ${port} not available!`);
@@ -104,6 +104,12 @@ const initContentScriptPort = (port) => {
                 importInProgress = false;
         }
     });
+
+    port.onDisconnect.addListener(removedPort => {
+        console.log(`Port <${removedPort.name}> disconnected`);
+
+        CSPort = null;
+    });
 }
 
 const initReactAppPort = (port) => {
@@ -123,10 +129,21 @@ const initReactAppPort = (port) => {
                 sendContinueImport(CSPort);
                 break;
 
+            case ERROR_BKG_CODE_NOT_RECOGNIZED:
+                importInProgress = false;
+                console.error(`Code sent to React <${msg.errCode}> not recognized`);
+                break;
+
             default: // code not recognized - send error back
                 sendPortCodeError(port, msg.code);
                 importInProgress = false;
         }
+    });
+
+    port.onDisconnect.addListener(removedPort => {
+        console.log(`Port <${removedPort.name}> disconnected`);
+
+        RAPort = null;
     });
 }
 
@@ -139,9 +156,10 @@ const initReactAppPort = (port) => {
 chrome.runtime.onConnect.addListener(port => {
     console.assert(port.name == CONTENT_SCRIPT_PORT || port.name == REACT_APP_PORT);
     
+    console.log(`Port <${port.name}> connected!`);
+
     // send init message
-    // TODO: continue import if setting is set to do so!
-    sendPortInit(port);
+    sendPortInit(port, importInProgress);
     
     switch (port.name) {
         case CONTENT_SCRIPT_PORT:
