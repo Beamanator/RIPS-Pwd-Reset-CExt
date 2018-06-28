@@ -14,3 +14,6 @@ export const USER_DATA_PAYLOAD = 'USER_DATA_PAYLOAD';
 export const START_IMPORT = 'START_IMPORT';
 export const CONTINUE_IMPORT = 'CONTINUE_IMPORT';
 export const IMPORT_DONE = 'IMPORT_DONE';
+
+// comes with payload errCode (code that errored in actions/port.js)
+export const ERROR_BKG_CODE_NOT_RECOGNIZED = 'ERROR_BKG_CODE_NOT_RECOGNIZED';

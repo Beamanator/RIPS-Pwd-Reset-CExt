@@ -18,3 +18,6 @@ const NEXT_URL_REDIRECT = 'NEXT_URL_REDIRECT';
 const START_IMPORT = 'START_IMPORT';
 const CONTINUE_IMPORT = 'CONTINUE_IMPORT';
 const IMPORT_DONE = 'IMPORT_DONE';
+
+// comes with payload errCode (code that errored in actions/port.js)
+const ERROR_BKG_CODE_NOT_RECOGNIZED = 'ERROR_BKG_CODE_NOT_RECOGNIZED';
