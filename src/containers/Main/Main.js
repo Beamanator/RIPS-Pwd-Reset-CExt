@@ -56,6 +56,12 @@ class Main extends Component {
         >[START]</Button>
     );
     beginCollectDataHandler = () => {
+        // delete old state data
+        this.setState({
+            formattedData: null,
+            urgent: [], warning: [], normal: []
+        });
+        // get new data from firebase & rips
         this.props.onFbFetchWords(this.props.token);
         this.props.onRipsFetchWords(this.props.bkgPort);
     };
@@ -70,31 +76,42 @@ class Main extends Component {
         // rips data is source of truth, so loop through it, trying to add
         //  new props to each element
         const analyzedData = this.props.ripsData.reduce((acc, user) => {
-            // get user's username
-            const username = user.username;
-            const todayString = (new Date()).toDateString();
+            // get user's username & make date string of today
+            const username = user.username, todayString = (new Date()).toDateString();
 
             // get fb data about this user
-            const fbUser = this.props.fbData[username];
+            const fbUserData = this.props.fbData || {};
+            const fbNumUsers = Object.keys(fbUserData).length;
 
-            // create obj for table
+            // create user obj for tables
             const tableUserData = {
                 username: username,
-                last_word: user.word,
+                // last_changed: <SET CONDITIONALLY BELOW>,
                 email: user.email
             };
 
             // if no data was found from fb, it's a new(ish) user
-            if (!fbUser) {
-                // automatically in the non-urgent password change group
+            if (fbNumUsers == 0) {
+                // add last_changed as today!
+                tableUserData.last_changed = todayString;
+
+                // automatically add to the non-urgent password change group
                 acc.normal.push( tableUserData );
             }
             
             // user already exists in fb, so analyze when password was changed last to figure
             //  out which urgency group user should go in
             else {
+                // get user data from firebase
+                const fbUser = fbUserData[username];
+
                 // get last time this word was updated
                 let lastUpdated = new Date(fbUser.last_updated);
+
+                // update user's last_changed date
+                tableUserData.last_changed = lastUpdated.toDateString();
+
+                // TODO: if _words are different, last_changed should be TODAY
 
                 // calculate difference in days between now and last_updated
                 // 1000 -> ms, 60 -> min, 60 -> hr, 24 -> days
@@ -113,7 +130,7 @@ class Main extends Component {
 
             // create updated node for fb
             acc.formattedData[username] = {
-                last_updated: todayString,
+                last_updated: tableUserData.last_changed,
                 last_word: user.word
             };
 
@@ -123,12 +140,13 @@ class Main extends Component {
             urgent: [], warning: [], normal: []
         });
 
+        // store to local state for display
         this.setState({
             formattedData: analyzedData.formattedData,
             urgent: analyzedData.urgent,
             warning: analyzedData.warning,
             normal: analyzedData.normal
-        })
+        });
     };
 
     getSaveDataBtn = () => (
@@ -138,7 +156,8 @@ class Main extends Component {
         >[SAVE!]</Button>
     );
     saveDataHandler = () => {
-        console.log('woot! save this.state.formattedData to FB now!');
+        // store formatted data to FB
+        this.props.onFbStoreWords(this.state.formattedData, this.props.token);
     };
 
     render () {
@@ -187,7 +206,8 @@ class Main extends Component {
         const compileElem = <div>Ready! Press it: {this.getCompileDataBtn()}</div>;
 
         // once data is ready to be saved, show "save" button
-        const saveElem = <div>Save? {this.getSaveDataBtn()}</div>;
+        const fbStoreDone = this.props.fbStoreLoading ? 'Done' : '...';
+        const saveElem = <div>Save? {this.getSaveDataBtn()} - Loading: {fbStoreDone}</div>;
 
         // extract tables & spacers - only display if there is data to display!
         let urgentData = null, warningData = null, normalData = null;
@@ -249,9 +269,10 @@ const mapStateToProps = state => {
     return {
         bkgPort: state.port.port,
         
+        ripsFetchLoading: state.words.ripsFetchLoading,
         fbFetchLoading: state.words.fbFetchLoading,
         fbStoreLoading: state.words.fbStoreLoading,
-        ripsFetchLoading: state.words.ripsFetchLoading,
+        // TODO: add fbStoreSuccess message or something!
 
         fbData: state.words.fbData,
         fbAvail: state.words.fbDataAvail,
@@ -268,7 +289,8 @@ const mapDispatchToProps = dispatch => {
         onLogout: () => dispatch(actions.logout()),
         onFbFetchWords: (token) => dispatch(actions.fbFetchWords(token)),
         onRipsFetchWords: (port) => dispatch(actions.ripsFetchWords(port)),
-        onBackgroundPortInit: (chrome) => dispatch(actions.backgroundPortInit(chrome))
+        onBackgroundPortInit: (chrome) => dispatch(actions.backgroundPortInit(chrome)),
+        onFbStoreWords: (userData, token) => dispatch(actions.fbStoreWords(userData, token))
     };
 };
 
