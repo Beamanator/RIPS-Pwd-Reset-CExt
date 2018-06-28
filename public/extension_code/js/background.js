@@ -98,6 +98,11 @@ const initContentScriptPort = (port) => {
                 console.error(`${msg.source} - ${msg.data}`);
                 importInProgress = false;
                 break;
+
+            case ERROR_HOW_TO_CONTINUE:
+                console.error(`Too many '>' elems found on rips page!`);
+                importInProgress = false;
+                break;
             
             default: // code not recognized - send error back
                 sendPortCodeError(port, msg.code);

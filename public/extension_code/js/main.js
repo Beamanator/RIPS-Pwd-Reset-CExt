@@ -38,8 +38,6 @@ const continueImport = () => {
 
     // if there's none left, we're done!
     if (nextPageElem.length === 0) {
-        // TODO: send message to background saying we're done :)
-        // TODO: tell background.js import is not in progress
         port.postMessage({ code: IMPORT_DONE });
     }
 
@@ -53,8 +51,7 @@ const continueImport = () => {
 
     // if there are many, throw error!
     else {
-        // TODO: throw error if here - too many elements with just '>' on page
-        // TODO: tell background.js import is not in progress
+        port.postMessage({ code: ERROR_HOW_TO_CONTINUE });
     }
 }
 
