@@ -28,9 +28,19 @@ export const fbFetchWords = (token) => {
         const queryParams = `?auth=${token}`;
         axios.get('/pwd_holder.json' + queryParams)
         .then(res => {
-            const fetchedWords = res.data;
+            const userData = res.data;
 
-            dispatch(fbFetchSuccess(fetchedWords));
+            let formattedUserData = {};
+
+            // replace any '_' chars with '.' in keys (usernames) to match rips 
+            for (let username in userData) {
+                const regex = new RegExp(/_/, "g");
+                const newUsername = username.replace(regex, ".");
+
+                formattedUserData[newUsername] = userData[username];
+            }
+
+            dispatch(fbFetchSuccess(formattedUserData));
         })
         .catch(err => {
             dispatch(fbFetchFail(err));
@@ -60,18 +70,28 @@ export const fbStoreWords = (userData, token) => {
     return dispatch => {
         dispatch(fbStoreStart());
 
+        let formattedUserData = {};
+
+        // replace any '.' chars with '_' in keys (usernames) for valid json
+        for (let username in userData) {
+            const regex = new RegExp(/\./, "g");
+            const newUsername = username.replace(regex, "_");
+
+            formattedUserData[newUsername] = userData[username];
+        }
+
         // store words to FB
         // POST will add a unique id before the data, PATCH should allow us to
         //  edit as we like
-        axios.patch('/pwd_holder.json?auth=' + token, userData)
+        axios.patch('/pwd_holder.json?auth=' + token, formattedUserData)
         .then(response => {
-            console.log('response -> ', response);
+            console.log('success response -> ', response);
             // Should we do anything with the response?
             const statusText = response.statusText;
             dispatch(fbStoreSuccess(statusText));
         })
         .catch(err => {
-            dispatch(fbStoreFail(err));
+            dispatch(fbStoreFail(err.message));
         });
     };
 };
