@@ -9,15 +9,15 @@ const table = (props) => {
     const headerData = {
         username: 'Username',
         email: 'Email Address',
-        lastPwdChange: 'Last Password Change'
+        last_changed: 'Last Password Change'
     };
 
     // handle table header class (to figure out appropriate color)
     let tableHeaderClass = 'Normal'
     switch( props.type ) {
-        case 'Urgent':
-        case 'Warning':
-        case 'Normal':
+        case 'urgent':
+        case 'warning':
+        case 'normal':
             tableHeaderClass = props.type;
             break;
         default:

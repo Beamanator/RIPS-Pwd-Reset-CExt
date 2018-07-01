@@ -29,13 +29,13 @@
 }
 
 /* .TableHead background colors */
-.Urgent {
+.urgent {
     background-color: rgb(255, 104, 104);
 }
-.Warning {
+.warning {
     background-color: rgb(230, 230, 0);
 }
-.Normal {
+.normal {
     background-color: rgb(0, 165, 0);
 }
 
