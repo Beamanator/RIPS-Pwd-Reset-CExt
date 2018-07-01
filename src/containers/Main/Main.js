@@ -165,6 +165,17 @@ class Main extends Component {
         this.props.onFbStoreWords(this.state.formattedData, this.props.token);
     };
 
+    getTableElem = (type, title) => (
+        <div>
+            <Spacer height='10px' />
+            <Table
+                title={title}
+                type={type}
+                data={this.state[type]}
+            />
+        </div>
+    );
+
     render () {
         // extract logoutBtn code
         const logoutBtn = this.getLogoutBtn();
@@ -217,40 +228,13 @@ class Main extends Component {
         // extract tables & spacers - only display if there is data to display!
         let urgentData = null, warningData = null, normalData = null;
         if (this.state.urgent.length > 0) {
-            urgentData = (
-                <div>
-                    <Spacer height='10px' />
-                    <Table
-                        title="CHANGE NOW"
-                        type="Urgent"
-                        data={this.state.urgent}
-                    />
-                </div>
-            );
+            urgentData = this.getTableElem("urgent", "CHANGE NOW");
         }
         if (this.state.warning.length > 0) {
-            warningData = (
-                <div>
-                    <Spacer height='10px' />
-                    <Table
-                        title="Change SOON"
-                        type="Warning"
-                        data={this.state.warning}
-                    />
-                </div>
-            );
+            warningData = this.getTableElem("warning", "Change SOON");
         }
         if (this.state.normal.length > 0) {
-            normalData = (
-                <div>
-                    <Spacer height='10px' />
-                    <Table
-                        title="Changed Recently"
-                        type="Normal"
-                        data={this.state.normal}
-                    />
-                </div>
-            );
+            normalData = this.getTableElem("normal", "Changed Recently");
         }
 
         return (
