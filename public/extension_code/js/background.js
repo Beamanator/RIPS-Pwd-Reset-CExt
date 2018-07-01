@@ -20,6 +20,7 @@ const sendCodeOnly = (port, code) => {
     port.postMessage({ code: code });
 };
 
+// TODO: wrap these functions with port-sending error messages
 const sendPortInit = (port, autoStartFlag) => {
     if (port) {
         port.postMessage({
@@ -126,8 +127,8 @@ const initReactAppPort = (port) => {
 
         switch(msg.code) {
             case START_IMPORT:
-                sendStartImport(CSPort);
                 importInProgress = true;
+                sendStartImport(CSPort);
                 break;
 
             case CONTINUE_IMPORT:
@@ -140,8 +141,8 @@ const initReactAppPort = (port) => {
                 break;
 
             default: // code not recognized - send error back
-                sendPortCodeError(port, msg.code);
                 importInProgress = false;
+                sendPortCodeError(port, msg.code);
         }
     });
 
@@ -178,10 +179,10 @@ chrome.runtime.onConnect.addListener(port => {
             break;
         
         default:
+            importInProgress = false;
             console.error(
                 "ERR: somehow connecting port isn't recognized, but we said assert!",
                 port
             );
-            importInProgress = false;
     }
 });
