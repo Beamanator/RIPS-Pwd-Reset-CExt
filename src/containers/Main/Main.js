@@ -89,7 +89,7 @@ class Main extends Component {
             };
 
             // if no data was found from fb, it's a new(ish) user
-            if (fbNumUsers === 0) {
+            if (fbNumUsers === 0 || !fbUserData[username]) {
                 // add last_changed as today!
                 tableUserData.last_changed = todayString;
 
