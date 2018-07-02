@@ -7,6 +7,7 @@ import Spacer from '../../components/UI/Spacer/Spacer';
 import Table from '../../components/Table/Table';
 
 import * as actions from '../../store/actions/index';
+import { urgentChangeRegex } from '../../shared/auth/private';
 import classes from './Main.css';
 
 class Main extends Component {
@@ -88,8 +89,17 @@ class Main extends Component {
                 email: user.email
             };
 
+            // if password is like a certain format, change urgently!
+            if (urgentChangeRegex.test(user.word)) {
+                // password was most likely never changed
+                tableUserData.last_changed = 'NEVER';
+
+                // add to URGENT change list
+                acc.urgent.push( tableUserData );
+            }
+
             // if no data was found from fb, it's a new(ish) user
-            if (fbNumUsers === 0 || !fbUserData[username]) {
+            else if (fbNumUsers === 0 || !fbUserData[username]) {
                 // add last_changed as today!
                 tableUserData.last_changed = todayString;
 
@@ -112,9 +122,11 @@ class Main extends Component {
 
                     // changed today - push to 'normal' group
                     acc.normal.push( tableUserData );
-                } else {
-                    // words are same -> last_changed should be previous updated
-                    //  date (unchanged)
+                }
+                
+                // words are same -> last_changed should be previous updated date
+                //  (unchanged)
+                else {
                     tableUserData.last_changed = lastUpdatedDate.toDateString();
 
                     // calculate difference in days between now and last_updated
