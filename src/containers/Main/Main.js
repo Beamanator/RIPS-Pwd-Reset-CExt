@@ -8,6 +8,7 @@ import Table from '../../components/Table/Table';
 
 import * as actions from '../../store/actions/index';
 import { urgentChangeRegex } from '../../shared/auth/private';
+import { sortStringArr } from '../../shared/utils';
 import classes from './Main.css';
 
 class Main extends Component {
@@ -76,7 +77,8 @@ class Main extends Component {
         //  new props to each element
         const analyzedData = this.props.ripsData.reduce((acc, user) => {
             // get user's username & make date string of today
-            const username = user.username, todayString = (new Date()).toDateString();
+            const username = user.username.toLowerCase(),
+                todayString = (new Date()).toDateString();
 
             // get fb data about this user
             const fbUserData = this.props.fbData || {};
@@ -160,9 +162,9 @@ class Main extends Component {
         // store to local state for display
         this.setState({
             formattedData: analyzedData.formattedData,
-            urgent: analyzedData.urgent,
-            warning: analyzedData.warning,
-            normal: analyzedData.normal
+            urgent: sortStringArr(analyzedData.urgent, ['username']),
+            warning: sortStringArr(analyzedData.warning, ['username']),
+            normal: sortStringArr(analyzedData.normal, ['username'])
         });
     };
 
