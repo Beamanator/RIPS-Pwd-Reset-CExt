@@ -25,14 +25,15 @@ export const fbFetchWords = (token) => {
         dispatch(fbFetchStart());
 
         // get words from FB here
-        const queryParams = `?auth=${token}`;
-        axios.get('/pwd_holder.json' + queryParams)
+        axios.get('/pwd_holder.json?auth=' + token)
         .then(res => {
             const userData = res.data;
 
             let formattedUserData = {};
 
             // replace any '_' chars with '.' in keys (usernames) to match rips 
+            // -> didn't have to replace '-' for some reason. maybe all of this
+            //    isn't completely necessary haha
             for (let username in userData) {
                 const regex = new RegExp(/_/, "g");
                 const newUsername = username.replace(regex, ".");
@@ -73,6 +74,8 @@ export const fbStoreWords = (userData, token) => {
         let formattedUserData = {};
 
         // replace any '.' chars with '_' in keys (usernames) for valid json
+        // -> didn't have to replace '-' for some reason. maybe all of this
+        //    isn't completely necessary haha
         for (let username in userData) {
             const regex = new RegExp(/\./, "g");
             const newUsername = username.replace(regex, "_");
