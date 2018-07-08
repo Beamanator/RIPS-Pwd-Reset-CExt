@@ -14,7 +14,8 @@ import classes from './Main.css';
 class Main extends Component {
     state = {
         formattedData: null,
-        urgent: [], warning: [], normal: []
+        urgent: [], warning: [], normal: [],
+        saveReady: false
     }
 
     componentDidMount() {
@@ -64,6 +65,8 @@ class Main extends Component {
         // get new data from firebase & rips
         this.props.onFbFetchWords(this.props.token);
         this.props.onRipsFetchWords(this.props.bkgPort);
+        // hide save button while data being collected
+        this.setState({ saveReady: false });
     };
 
     getCompileDataBtn = () => (
@@ -164,7 +167,8 @@ class Main extends Component {
             formattedData: analyzedData.formattedData,
             urgent: sortStringArr(analyzedData.urgent, ['username']),
             warning: sortStringArr(analyzedData.warning, ['username']),
-            normal: sortStringArr(analyzedData.normal, ['username'])
+            normal: sortStringArr(analyzedData.normal, ['username']),
+            saveReady: true
         });
     };
 
@@ -177,6 +181,9 @@ class Main extends Component {
     saveDataHandler = () => {
         // store formatted data to FB
         this.props.onFbStoreWords(this.state.formattedData, this.props.token);
+
+        // hide save button after clicked
+        this.setState({ saveReady: false });
     };
 
     getTableElem = (type, title) => (
@@ -212,44 +219,30 @@ class Main extends Component {
 
         // extra error text here
         let error = null;
-        if (this.props.error && this.props.error.message) {
-            error = <div>this.props.error.message</div>;
-        }
+        if (this.props.error && this.props.error.message) { error = <div>{this.props.error.message}</div>; }
 
         // set data available text
         let ripsAvailText = '[NO]', ripsAvailClass = classes.Disconnected,
             fbAvailText = '[NO]', fbAvailClass = classes.Disconnected;
-        if (this.props.ripsFetchLoading) {
-            ripsAvailText = '[...]';
-        } else if (this.props.ripsAvail) {
-            ripsAvailText = '[YES]';    ripsAvailClass = classes.Connected;
-        }
-        if (this.props.fbFetchLoading) {
-            fbAvailText = '[...]';
-        } else if (this.props.fbAvail) {
-            fbAvailText = '[YES]';      fbAvailClass = classes.Connected;
-        }
+        if ( this.props.ripsFetchLoading ) { ripsAvailText = '[...]'; }
+        else if ( this.props.ripsAvail ) { ripsAvailText = '[YES]';    ripsAvailClass = classes.Connected; }
+        if ( this.props.fbFetchLoading ) { fbAvailText = '[...]'; }
+        else if ( this.props.fbAvail ) {   fbAvailText = '[YES]';      fbAvailClass = classes.Connected;  }
         const ripsAvailElem = <span className={ripsAvailClass}>{ripsAvailText}</span>,
             fbAvailElem = <span className={fbAvailClass}>{fbAvailText}</span>
 
-        // if all data is available, show "compile" button!
-        const compileElem = <div>Ready! Press it: {this.getCompileDataBtn()}</div>;
+        // create "compile" text + button!
+        const compileElem = <div>Ready! Next step: {this.getCompileDataBtn()}</div>;
 
         // once data is ready to be saved, show "save" button
         // const fbStoreDone = this.props.fbStoreLoading ? 'Done' : '...';
-        const saveElem = <div>Save? {this.getSaveDataBtn()} - Loading: {this.props.fbStoreSuccess}</div>;
+        const saveElem = <div>Save? {this.state.saveReady ? this.getSaveDataBtn() : null} - Loading: {this.props.fbStoreSuccess}</div>;
 
         // extract tables & spacers - only display if there is data to display!
         let urgentData = null, warningData = null, normalData = null;
-        if (this.state.urgent.length > 0) {
-            urgentData = this.getTableElem("urgent", "CHANGE NOW");
-        }
-        if (this.state.warning.length > 0) {
-            warningData = this.getTableElem("warning", "Change SOON");
-        }
-        if (this.state.normal.length > 0) {
-            normalData = this.getTableElem("normal", "Changed Recently");
-        }
+        if ( this.state.urgent.length > 0 ) {  urgentData = this.getTableElem("urgent", "CHANGE NOW"); }
+        if ( this.state.warning.length > 0 ) { warningData = this.getTableElem("warning", "Change SOON"); }
+        if ( this.state.normal.length > 0 ) {  normalData = this.getTableElem("normal", "Changed Recently"); }
 
         return (
             <div>
