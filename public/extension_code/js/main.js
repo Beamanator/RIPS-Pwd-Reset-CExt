@@ -7,8 +7,6 @@ const port = chrome.runtime.connect({ name: CONTENT_SCRIPT_PORT });
 //                               MAIN FUNCTIONS
 // ==============================================================================
 const startImport = () => {
-    // TODO: FIXME: only do this stuff if authenticated?
-    
     // Note: url should be right, since this only runs on the correct page
     // get the elements we need to search through, and map to useful array
     const rowNodes = document.querySelectorAll('table.webGrid tbody tr');
