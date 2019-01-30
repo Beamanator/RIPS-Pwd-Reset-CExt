@@ -3,7 +3,7 @@
 # dependencies
 /node_modules
 
-# hide apiKey file - technically it's ok to show though, right?
+# fb auth config
 /src/shared/auth
 
 # testing
